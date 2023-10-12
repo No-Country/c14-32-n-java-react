@@ -4,6 +4,7 @@ import com.hotelapp.commons.controller.GenericRestController;
 import com.hotelapp.commons.dto.response.CustomResponse;
 import com.hotelapp.room.dto.model.Room;
 import com.hotelapp.room.services.CreateRoomService;
+import com.hotelapp.room.services.DeleteRoomByIdService;
 import com.hotelapp.room.services.GetAllRoomService;
 import com.hotelapp.room.services.GetRoomByIdService;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,13 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
     private final CreateRoomService createRoomService;
     private final GetAllRoomService getAllRoomService;
     private final GetRoomByIdService getRoomByIdService;
+    private final DeleteRoomByIdService deleteRoomByIdService;
 
-    public RoomControllerImpl(CreateRoomService createRoomService, GetAllRoomService getAllRoomService, GetRoomByIdService getRoomByIdService) {
+    public RoomControllerImpl(CreateRoomService createRoomService, GetAllRoomService getAllRoomService, GetRoomByIdService getRoomByIdService, DeleteRoomByIdService deleteRoomByIdService) {
         this.createRoomService = createRoomService;
         this.getAllRoomService = getAllRoomService;
         this.getRoomByIdService = getRoomByIdService;
+        this.deleteRoomByIdService = deleteRoomByIdService;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
 
     @Override
     public ResponseEntity<CustomResponse> deleteRoomById(Long id) {
+        deleteRoomByIdService.deleteRoomById(id);
         return ok(null,DELETED_SUCCESSFULLY, REQUEST_ROOM);
     }
 }

@@ -8,5 +8,7 @@ public class GlobalApiConstant {
     public static final String ID_PARAM = "/{id}";
     public static final String GENERIC_PAGINATOR_PARAM = "/page/{numberPage}";
 
+    public static final String DELETED_SUCCESSFULLY = "Deleted Successfully";
+
 
 }

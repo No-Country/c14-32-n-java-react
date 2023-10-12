@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.hotelapp.commons.constants.GlobalApiConstant.CREATED;
+import static com.hotelapp.commons.constants.GlobalApiConstant.DELETED_SUCCESSFULLY;
 import static com.hotelapp.room.constants.RoomConstants.REQUEST_ROOM;
 
 @RestController
@@ -40,5 +41,10 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
     @Override
     public ResponseEntity<CustomResponse> getRoomById(Long id) {
         return ok(getRoomByIdService.getRoomById(id), null, REQUEST_ROOM);
+    }
+
+    @Override
+    public ResponseEntity<CustomResponse> deleteRoomById(Long id) {
+        return ok(null,DELETED_SUCCESSFULLY, REQUEST_ROOM);
     }
 }

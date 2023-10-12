@@ -9,6 +9,6 @@ public class GlobalApiConstant {
     public static final String GENERIC_PAGINATOR_PARAM = "/page/{numberPage}";
 
     public static final String DELETED_SUCCESSFULLY = "Deleted Successfully";
-
+    public static final String NOT_NULL = "The attribute can not be null";
 
 }

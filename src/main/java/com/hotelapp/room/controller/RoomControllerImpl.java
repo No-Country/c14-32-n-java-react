@@ -2,11 +2,13 @@ package com.hotelapp.room.controller;
 
 import com.hotelapp.commons.controller.GenericRestController;
 import com.hotelapp.commons.dto.response.CustomResponse;
+import com.hotelapp.room.controller.validate.ValidateRoom;
 import com.hotelapp.room.dto.model.Room;
 import com.hotelapp.room.services.CreateRoomService;
 import com.hotelapp.room.services.GetAllRoomService;
 import com.hotelapp.room.services.GetRoomByIdService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +31,11 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
     }
 
     @Override
-    public ResponseEntity<CustomResponse> save(Room room) {
+    public ResponseEntity<CustomResponse> save(Room room, BindingResult bindingResult) {
+        ValidateRoom.validateRoomRows(room, bindingResult);
+        if(bindingResult.hasErrors()){
+            return bad(room,bindingResult.getFieldError().getDefaultMessage(),REQUEST_ROOM);
+        }
         return create(createRoomService.saveRoom(room),CREATED, REQUEST_ROOM);
     }
 

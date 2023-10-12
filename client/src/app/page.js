@@ -22,7 +22,7 @@ export default function Home() {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: "eve.holt@reqres.in",
       password: "",
     },
     validationSchema: validationSchema,

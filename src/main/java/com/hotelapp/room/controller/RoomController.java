@@ -15,4 +15,8 @@ public interface RoomController {
 
     @GetMapping("/getPage/{numberPage}")
     ResponseEntity<CustomResponse> getAllRooms(@PathVariable int numberPage);
+
+    @GetMapping("/{id}")
+    ResponseEntity<CustomResponse> getRoomById(@PathVariable Long id);
+
 }

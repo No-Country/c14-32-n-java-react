@@ -6,12 +6,15 @@ import com.hotelapp.room.db.sql.modeldata.RoomData;
 import com.hotelapp.room.dto.model.Room;
 import com.hotelapp.room.facade.CreateRoomFacade;
 import com.hotelapp.room.facade.GetAllRoomFacade;
+import com.hotelapp.room.facade.GetRoomByIdFacade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade {
+public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade, GetRoomByIdFacade {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
     public RoomImpl(RoomRepository roomRepository, RoomMapper roomMapper) {
@@ -31,5 +34,14 @@ public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade {
         PageRequest page = PageRequest.of(numberPage, pageSize);
         Page<RoomData> roomData = roomRepository.findAll(page);
         return roomData.map(roomMapper::roomDataToRoom);
+    }
+
+    @Override
+    public Room getRoomById(Long id) {
+        Optional<RoomData> roomFinded = roomRepository.findById(id);
+        if(roomFinded.isPresent()){
+            return roomMapper.roomDataToRoom(roomFinded.get());
+        }
+        return null;
     }
 }

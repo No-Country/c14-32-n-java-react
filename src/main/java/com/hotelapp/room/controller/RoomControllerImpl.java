@@ -5,6 +5,7 @@ import com.hotelapp.commons.dto.response.CustomResponse;
 import com.hotelapp.room.dto.model.Room;
 import com.hotelapp.room.services.CreateRoomService;
 import com.hotelapp.room.services.GetAllRoomService;
+import com.hotelapp.room.services.GetRoomByIdService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +19,12 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
 
     private final CreateRoomService createRoomService;
     private final GetAllRoomService getAllRoomService;
+    private final GetRoomByIdService getRoomByIdService;
 
-    public RoomControllerImpl(CreateRoomService createRoomService, GetAllRoomService getAllRoomService) {
+    public RoomControllerImpl(CreateRoomService createRoomService, GetAllRoomService getAllRoomService, GetRoomByIdService getRoomByIdService) {
         this.createRoomService = createRoomService;
         this.getAllRoomService = getAllRoomService;
+        this.getRoomByIdService = getRoomByIdService;
     }
 
     @Override
@@ -32,5 +35,10 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
     @Override
     public ResponseEntity<CustomResponse> getAllRooms(int numberPage) {
         return ok(getAllRoomService.getAllRoomsPaginator(numberPage),null,REQUEST_ROOM);
+    }
+
+    @Override
+    public ResponseEntity<CustomResponse> getRoomById(Long id) {
+        return ok(getRoomByIdService.getRoomById(id), null, REQUEST_ROOM);
     }
 }

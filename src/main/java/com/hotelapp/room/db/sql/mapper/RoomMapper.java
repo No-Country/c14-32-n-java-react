@@ -1,5 +1,4 @@
 package com.hotelapp.room.db.sql.mapper;
-
 import com.hotelapp.booking.db.sql.modeldata.BookingData;
 import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
@@ -50,15 +49,31 @@ public class RoomMapper {
         ).collect(Collectors.toList());
     }
     public RoomData roomToRoomData(Room room){
-        List<Booking> listBooking = null;
-        if(!isNull(room.getListBooking())){
-            listBooking = room.getListBooking();
-        }
+        List<BookingData> listBookingData = null;
+        chargeListBookingData(listBookingData, room);
         return new RoomData.RoomDataBuilder()
                 .idRoom(room.getIdRoom())
                 .roomNumber(room.getRoomNumber())
                 .roomState(room.getRoomState())
-                .listBooking(listToBookingData(listBooking))
+                .listBooking(listBookingData)
                 .build();
     }
+
+    public void chargeListBookingData(List<BookingData> listBookingData, Room room){
+        if(!isNull(room.getListBooking())){
+            List<Booking> listBooking = room.getListBooking();
+            listBookingData =listToBookingData(listBooking);
+            listBookingData.get(0).setRoom(roomWithoutBookingListToRoomData(room));
+        }
+    }
+
+    public RoomData roomWithoutBookingListToRoomData(Room room){
+        return new RoomData.RoomDataBuilder()
+                .idRoom(room.getIdRoom())
+                .roomNumber(room.getRoomNumber())
+                .roomState(room.getRoomState())
+                .build();
+    }
+
+
 }

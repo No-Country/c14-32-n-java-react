@@ -8,10 +8,8 @@ import com.hotelapp.room.dto.request.ReserveRoomRequest;
 import com.hotelapp.room.facade.CreateRoomFacade;
 import com.hotelapp.room.facade.GetRoomByIdFacade;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 
@@ -39,9 +37,13 @@ public class ReserveRoomService {
         if(!isNull(room.getListBooking())){
             room.getListBooking().add(reserveRoomRequest.getBooking());
         }else{
-            List<Booking> newListBooking = new ArrayList<>();
-            newListBooking.add(reserveRoomRequest.getBooking());
-            room.setListBooking(newListBooking);
+            addNewBooking(reserveRoomRequest, room);
         }
+    }
+
+    private void addNewBooking(ReserveRoomRequest reserveRoomRequest, Room room) {
+        List<Booking> newListBooking = new ArrayList<>();
+        newListBooking.add(reserveRoomRequest.getBooking());
+        room.setListBooking(newListBooking);
     }
 }

@@ -2,6 +2,7 @@ package com.hotelapp.room.controller;
 
 import com.hotelapp.commons.dto.response.CustomResponse;
 import com.hotelapp.room.dto.model.Room;
+import com.hotelapp.room.dto.request.ReserveRoomRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ public interface RoomController {
 
     @PostMapping
     ResponseEntity<CustomResponse> save(@RequestBody Room room, BindingResult bindingResult);
+
+    @PostMapping("/reserve-room")
+    ResponseEntity<CustomResponse> reserveRoom(@RequestBody ReserveRoomRequest reserveRoomRequest);
 
     @GetMapping(GENERIC_PAGINATOR_PARAM)
     ResponseEntity<CustomResponse> getAllRooms(@PathVariable int numberPage);

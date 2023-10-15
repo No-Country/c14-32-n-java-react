@@ -22,4 +22,7 @@ public interface CustomerController {
     @PutMapping
     ResponseEntity<CustomResponse> update(@RequestBody Customer customer);
 
+    @DeleteMapping(ID_PARAM)
+    ResponseEntity<CustomResponse> delete(@PathVariable Long id);
+
 }

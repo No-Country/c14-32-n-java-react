@@ -4,10 +4,7 @@ import com.hotelapp.customer.db.sql.jparepository.CustomerRepository;
 import com.hotelapp.customer.db.sql.mapper.CustomerMapper;
 import com.hotelapp.customer.db.sql.modeldata.CustomerData;
 import com.hotelapp.customer.dto.model.Customer;
-import com.hotelapp.customer.facade.CreateCustomerFacade;
-import com.hotelapp.customer.facade.GetAllCustomersFacade;
-import com.hotelapp.customer.facade.GetCustomerByIdFacade;
-import com.hotelapp.customer.facade.UpdateCustomerFacada;
+import com.hotelapp.customer.facade.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade,
-        GetCustomerByIdFacade, UpdateCustomerFacada {
+        GetCustomerByIdFacade, UpdateCustomerFacada, DeleteCustomerFacade {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
@@ -51,7 +48,6 @@ public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade
         return null;
     }
 
-
     @Override
     public Customer updateCustomer(Customer customer) {
         Optional<CustomerData> customerDataOptional = customerRepository
@@ -64,4 +60,8 @@ public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade
         return null;
     }
 
+    @Override
+    public void delete(Long id) {
+        customerRepository.deleteById(id);
+    }
 }

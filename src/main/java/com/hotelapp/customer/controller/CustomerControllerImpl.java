@@ -4,6 +4,7 @@ import com.hotelapp.commons.controller.GenericRestController;
 import com.hotelapp.commons.dto.response.CustomResponse;
 import com.hotelapp.customer.dto.model.Customer;
 import com.hotelapp.customer.services.CreateCustomerService;
+import com.hotelapp.customer.services.GetAllCustomersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +18,12 @@ public class CustomerControllerImpl extends GenericRestController implements Cus
 
 
     private final CreateCustomerService createCustomerService;
+    private final GetAllCustomersService getAllCustomersService;
 
-    public CustomerControllerImpl(CreateCustomerService createCustomerService){
+    public CustomerControllerImpl(CreateCustomerService createCustomerService,
+                                  GetAllCustomersService getAllCustomersService){
         this.createCustomerService = createCustomerService;
-
+        this.getAllCustomersService = getAllCustomersService;
     }
 
 
@@ -29,5 +32,9 @@ public class CustomerControllerImpl extends GenericRestController implements Cus
         return create(createCustomerService.saveCustomer(customer),CREATED, REQUEST_CUSTOMER);
     }
 
+    @Override
+    public ResponseEntity<CustomResponse> getAll(int numberPage) {
+        return ok(getAllCustomersService.getAllCustomersPaginator(numberPage),null,REQUEST_CUSTOMER);
+    }
 
 }

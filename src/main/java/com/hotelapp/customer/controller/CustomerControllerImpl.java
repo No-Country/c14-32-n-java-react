@@ -6,6 +6,7 @@ import com.hotelapp.customer.dto.model.Customer;
 import com.hotelapp.customer.services.CreateCustomerService;
 import com.hotelapp.customer.services.GetAllCustomersService;
 import com.hotelapp.customer.services.GetCustomerByIdService;
+import com.hotelapp.customer.services.UpdateCustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,13 +23,16 @@ public class CustomerControllerImpl extends GenericRestController implements Cus
     private final CreateCustomerService createCustomerService;
     private final GetAllCustomersService getAllCustomersService;
     private final GetCustomerByIdService getCustomerByIdService;
+    private final UpdateCustomerService updateCustomerService;
 
     public CustomerControllerImpl(CreateCustomerService createCustomerService,
                                   GetAllCustomersService getAllCustomersService,
-                                  GetCustomerByIdService getCustomerByIdService){
+                                  GetCustomerByIdService getCustomerByIdService,
+                                  UpdateCustomerService updateCustomerService){
         this.createCustomerService = createCustomerService;
         this.getAllCustomersService = getAllCustomersService;
         this.getCustomerByIdService = getCustomerByIdService;
+        this.updateCustomerService = updateCustomerService;
     }
 
 
@@ -47,6 +51,15 @@ public class CustomerControllerImpl extends GenericRestController implements Cus
         Customer customer = getCustomerByIdService.getCustomerById(id);
         if (customer != null){
             return ok(customer,null,REQUEST_CUSTOMER);
+        }
+        return ok(null,NOT_FOUND, REQUEST_CUSTOMER );
+    }
+
+    @Override
+    public ResponseEntity<CustomResponse> update(Customer customer) {
+        Customer updateCustomerDate = updateCustomerService.updateCustomer(customer);
+        if (updateCustomerDate != null){
+            return ok(updateCustomerDate,null,REQUEST_CUSTOMER);
         }
         return ok(null,NOT_FOUND, REQUEST_CUSTOMER );
     }

@@ -19,5 +19,7 @@ public interface CustomerController {
     @GetMapping(ID_PARAM)
     ResponseEntity<CustomResponse> getById(@PathVariable Long id);
 
+    @PutMapping
+    ResponseEntity<CustomResponse> update(@RequestBody Customer customer);
 
 }

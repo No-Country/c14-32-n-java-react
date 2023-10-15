@@ -7,6 +7,7 @@ import com.hotelapp.customer.dto.model.Customer;
 import com.hotelapp.customer.facade.CreateCustomerFacade;
 import com.hotelapp.customer.facade.GetAllCustomersFacade;
 import com.hotelapp.customer.facade.GetCustomerByIdFacade;
+import com.hotelapp.customer.facade.UpdateCustomerFacada;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ import java.util.Optional;
 
 
 @Service
-public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade, GetCustomerByIdFacade {
+public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade,
+        GetCustomerByIdFacade, UpdateCustomerFacada {
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
@@ -48,4 +50,18 @@ public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade
         }
         return null;
     }
+
+
+    @Override
+    public Customer updateCustomer(Customer customer) {
+        Optional<CustomerData> customerDataOptional = customerRepository
+                .findById(customer.getIdCustomer());
+        if (customerDataOptional.isPresent()){
+            CustomerData updatedCustomerData = customerRepository
+                    .save(customerMapper.customerToRoomData(customer));
+            return customerMapper.customerDataToCustomer(updatedCustomerData);
+        }
+        return null;
+    }
+
 }

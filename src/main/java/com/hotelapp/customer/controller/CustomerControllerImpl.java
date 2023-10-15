@@ -5,11 +5,13 @@ import com.hotelapp.commons.dto.response.CustomResponse;
 import com.hotelapp.customer.dto.model.Customer;
 import com.hotelapp.customer.services.CreateCustomerService;
 import com.hotelapp.customer.services.GetAllCustomersService;
+import com.hotelapp.customer.services.GetCustomerByIdService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.hotelapp.commons.constants.GlobalApiConstant.CREATED;
+import static com.hotelapp.commons.constants.GlobalApiConstant.NOT_FOUND;
 import static com.hotelapp.customer.constants.CustomerConstants.REQUEST_CUSTOMER;
 
 @RestController
@@ -19,11 +21,14 @@ public class CustomerControllerImpl extends GenericRestController implements Cus
 
     private final CreateCustomerService createCustomerService;
     private final GetAllCustomersService getAllCustomersService;
+    private final GetCustomerByIdService getCustomerByIdService;
 
     public CustomerControllerImpl(CreateCustomerService createCustomerService,
-                                  GetAllCustomersService getAllCustomersService){
+                                  GetAllCustomersService getAllCustomersService,
+                                  GetCustomerByIdService getCustomerByIdService){
         this.createCustomerService = createCustomerService;
         this.getAllCustomersService = getAllCustomersService;
+        this.getCustomerByIdService = getCustomerByIdService;
     }
 
 
@@ -35,6 +40,15 @@ public class CustomerControllerImpl extends GenericRestController implements Cus
     @Override
     public ResponseEntity<CustomResponse> getAll(int numberPage) {
         return ok(getAllCustomersService.getAllCustomersPaginator(numberPage),null,REQUEST_CUSTOMER);
+    }
+
+    @Override
+    public ResponseEntity<CustomResponse> getById(Long id) {
+        Customer customer = getCustomerByIdService.getCustomerById(id);
+        if (customer != null){
+            return ok(customer,null,REQUEST_CUSTOMER);
+        }
+        return ok(null,NOT_FOUND, REQUEST_CUSTOMER );
     }
 
 }

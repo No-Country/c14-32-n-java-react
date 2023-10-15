@@ -1,8 +1,8 @@
 package com.hotelapp.booking.controller;
 
-import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.booking.dto.request.CreateBookingRequest;
 import com.hotelapp.booking.services.CreateBookingService;
+import com.hotelapp.booking.services.GetAllBookingService;
 import com.hotelapp.commons.controller.GenericRestController;
 import com.hotelapp.commons.dto.response.CustomResponse;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,10 @@ import static com.hotelapp.commons.constants.GlobalApiConstant.CREATED;
 @RequestMapping(REQUEST_BOOKING)
 public class BookingControllerImpl extends GenericRestController implements BookingController  {
     private final CreateBookingService createBookingService;
-
-    public BookingControllerImpl(CreateBookingService createBookingService) {
+    private final GetAllBookingService getAllBookingService;
+    public BookingControllerImpl(CreateBookingService createBookingService, GetAllBookingService getAllBookingService) {
         this.createBookingService = createBookingService;
+        this.getAllBookingService = getAllBookingService;
     }
 
 
@@ -30,7 +31,7 @@ public class BookingControllerImpl extends GenericRestController implements Book
 
     @Override
     public ResponseEntity<CustomResponse> getAllBookings(int numberPage) {
-        return null;
+        return ok(getAllBookingService.getAllBookingsPage(numberPage), null, REQUEST_BOOKING);
     }
 
     @Override

@@ -3,10 +3,13 @@ import com.hotelapp.booking.db.sql.jparepository.BookingRepository;
 import com.hotelapp.booking.db.sql.mapper.BookingMapper;
 import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.booking.facade.CreateBookingFacade;
+import com.hotelapp.booking.facade.GetAllBookingFacade;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BookingImpl implements CreateBookingFacade {
+public class BookingImpl implements CreateBookingFacade, GetAllBookingFacade {
     private final BookingRepository bookingRepository;
 
     private final BookingMapper bookingMapper;
@@ -23,4 +26,10 @@ public class BookingImpl implements CreateBookingFacade {
         );
     }
 
+    @Override
+    public Page<Booking> getAllBookings(int numberPage) {
+        int pageSize = 10;
+        PageRequest page = PageRequest.of(numberPage, pageSize);
+        return bookingRepository.findAll(page).map(bookingMapper::bookingDataToBooking);
+    }
 }

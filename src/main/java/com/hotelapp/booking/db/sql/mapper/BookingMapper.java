@@ -6,6 +6,8 @@ import com.hotelapp.room.db.sql.modeldata.RoomData;
 import com.hotelapp.room.dto.model.Room;
 import org.springframework.stereotype.Component;
 
+import static java.util.Objects.isNull;
+
 @Component
 public class BookingMapper {
     public Booking bookingDataToBooking(BookingData bookingData){
@@ -20,6 +22,9 @@ public class BookingMapper {
                 .build();
     }
     public Room roomDataToRoom(RoomData roomData){
+        if(isNull(roomData)){
+            return null;
+        }
         return new Room.RoomBuilder()
                 .idRoom(roomData.getIdRoom())
                 .roomState(roomData.getRoomState())

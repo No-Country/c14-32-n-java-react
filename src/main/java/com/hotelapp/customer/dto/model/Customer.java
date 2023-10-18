@@ -1,5 +1,6 @@
 package com.hotelapp.customer.dto.model;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +11,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Customer {
     private Long idCustomer;
+
+    @NotBlank(message = "the firstname cannot be blank")
     private String firstname;
+
+    @NotBlank(message = "the lastname cannot be blank")
     private String lastname;
+
+    @Pattern(regexp = "\\d+", message = "the dni must contain only digits")
+    @Size(min = 6, max = 8, message = "the dni must be 6 to 8 digits long")
     private String dni;
+
+    @Email(message = "invalid email address")
     private String email;
+
+    @Pattern(regexp = "\\d+", message = "the phone must contain only digits")
     private String phone;
 
 

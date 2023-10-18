@@ -12,7 +12,7 @@ public class DeleteCustomerService {
         this.deleteCustomerFacade = deleteCustomerFacade;
     }
 
-    public void deleteCustomer(Long id){
-        deleteCustomerFacade.delete(id);
+    public boolean deleteCustomer(Long id){
+       return deleteCustomerFacade.delete(id);
     }
 }

@@ -34,6 +34,16 @@ public class GenericRestController {
         return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
     }
 
+    protected ResponseEntity<CustomResponse> notFound(Object obj, String message, String api) {
+        CustomResponse customResponse = new CustomResponse();
+        customResponse.setApi(api);
+        customResponse.setCode(HttpStatus.NOT_FOUND.toString());
+        customResponse.setMessage(message);
+        customResponse.setResponse(obj);
+        return new ResponseEntity<>(customResponse, HttpStatus.NOT_FOUND);
+    }
+
+
 
 
 }

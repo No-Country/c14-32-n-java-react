@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+
 import java.util.Optional;
 
 
@@ -61,7 +62,13 @@ public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade
     }
 
     @Override
-    public void delete(Long id) {
-        customerRepository.deleteById(id);
+    public boolean delete(Long id) {
+        Optional<CustomerData> customerDataOptional = customerRepository.findById(id);
+        if (customerDataOptional.isPresent()) {
+            customerRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
+
 }

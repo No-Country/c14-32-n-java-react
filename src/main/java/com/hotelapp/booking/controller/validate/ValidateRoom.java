@@ -1,4 +1,4 @@
-package com.hotelapp.room.controller.validate;
+package com.hotelapp.booking.controller.validate;
 
 import com.hotelapp.commons.controller.validators.Validator;
 import com.hotelapp.commons.controller.validators.ValidatorObject;
@@ -21,7 +21,7 @@ public class ValidateRoom extends Validator {
 
     }
     public static void roomNumberNotNull(Room room, BindingResult bindingResult){
-        if(isNull(room.getRoomNumber())){
+        if(!isNull(room.getRoomNumber())){
             validate(new ValidatorObject.ValidatorObjectBuilder()
                     .message(NOT_NULL)
                     .field("roomNumber")
@@ -29,7 +29,7 @@ public class ValidateRoom extends Validator {
         }
     }
     public static void roomStateNotNull(Room room, BindingResult bindingResult){
-        if(isNull(room.getRoomState())){
+        if(!isNull(room.getRoomState())){
             validate(new ValidatorObject.ValidatorObjectBuilder()
                     .message(NOT_NULL)
                     .field("roomState")

@@ -11,7 +11,6 @@ public class CreateRoomService {
     }
 
     public Room saveRoom(Room room) {
-
         return createRoomFacade.saveRoom(room);
     }
 }

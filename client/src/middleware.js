@@ -20,6 +20,6 @@ export const config = {
     "/dashboard",
     "/dashboard/rooms",
     "/dashboard/clients",
-    "/dashboard/receptions",
+    "/dashboard/booking",
   ],
 };

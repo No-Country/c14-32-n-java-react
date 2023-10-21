@@ -88,6 +88,33 @@ body {
   
 }
 
+.icon-categories-page{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-image: url("../assets/icons/category_FILL0_wght400_GRAD0_opsz24.svg");
+  background-size: 24px;
+  background-repeat: no-repeat;
+}
+
+.icon-edit{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-image: url("../assets/icons/edit_FILL0_wght400_GRAD0_opsz24.svg");
+  background-size: 24px;
+  background-repeat: no-repeat;
+}
+
+.icon-remove{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-image: url("../assets/icons/delete_FILL0_wght400_GRAD0_opsz24.svg");
+  background-size: 24px;
+  background-repeat: no-repeat;
+}
+
 @media screen and (max-width: 768px) {
   .aside-content {
     position: fixed;

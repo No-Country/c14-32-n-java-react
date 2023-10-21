@@ -17,9 +17,9 @@ const aside_data = [
   },
   {
     id: 2,
-    name: "Receptions",
+    name: "Booking",
     icon: "icon-reception-page",
-    link: "/dashboard/receptions",
+    link: "/dashboard/booking",
   },
   {
     id: 3,
@@ -33,6 +33,12 @@ const aside_data = [
     icon: "icon-rooms-page",
     link: "/dashboard/rooms",
   },
+  {
+    id:5,
+    name: "Categories",
+    icon: "icon-categories-page",
+    link: "/dashboard/categories"
+  }
 ];
 
 export default function Dashboard({ children }) {
@@ -79,7 +85,7 @@ export default function Dashboard({ children }) {
       <aside
         className={`flex flex-col justify-between aside-content${
           isNavActive ? " active" : ""
-        } p-10 text-white md:shadow-2xl bg-slate-950 md:w-2/12  md:rounded-2xl  md:mx-2 md:mt-2 md:mb-2`}
+        } p-10 lg:p-10  md:p-5 text-white md:shadow-2xl bg-slate-950 md:w-1/12   lg:w-2/12  md:rounded-2xl  md:mx-2 md:mt-2 md:mb-2`}
       >
         <div className="flex justify-between items-center">
           <h1 className="text-lg font-bold md:hidden lg:block">
@@ -95,12 +101,12 @@ export default function Dashboard({ children }) {
         </div>
         <ul className="flex flex-col gap-7 ">
           {aside_data.map((aside, i) => (
-            <li className="flex gap-4 cursor-pointer" key={i}>
+            <li  key={i}>
+              <Link className="flex gap-4 cursor-pointer" href={aside.link}>
               <i className={aside.icon}></i>
-              <Link className="md:hidden lg:block" href={aside.link}>
-                {" "}
-                {aside.name}{" "}
-              </Link>
+              <p className="md:hidden lg:block" >
+                {aside.name}
+              </p></Link>
             </li>
           ))}
         </ul>

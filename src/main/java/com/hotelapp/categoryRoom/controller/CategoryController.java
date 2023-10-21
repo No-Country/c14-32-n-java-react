@@ -15,7 +15,7 @@ public interface CategoryController {
     ResponseEntity<CustomResponse> save(@RequestBody Category category);
 
     @GetMapping(GENERIC_PAGINATOR_PARAM)
-    ResponseEntity<CustomResponse> getAllCategorys(@PathVariable int numberPage);
+    ResponseEntity<CustomResponse> getAllCategories(@PathVariable int numberPage);
 
     @GetMapping(ID_PARAM)
     ResponseEntity<CustomResponse> getCategoryById(@PathVariable Long id);

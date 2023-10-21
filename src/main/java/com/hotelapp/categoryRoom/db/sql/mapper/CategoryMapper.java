@@ -4,6 +4,8 @@ import com.hotelapp.categoryRoom.db.sql.modeldata.CategoryData;
 import com.hotelapp.categoryRoom.dto.model.Category;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 public class CategoryMapper {
 
@@ -11,6 +13,7 @@ public class CategoryMapper {
         return new Category.CategoryBuilder()
                 .idCategory(categoryData.getIdCategory())
                 .categoryName(categoryData.getCategoryName())
+                .categoryDescription(categoryData.getCategoryDescription())
                 .basePrice(categoryData.getBasePrice())
                 .build();
     }
@@ -19,8 +22,8 @@ public class CategoryMapper {
         return new CategoryData.CategoryDataBuilder()
                 .idCategory(category.getIdCategory())
                 .categoryName(category.getCategoryName()).
+                categoryDescription(category.getCategoryDescription()).
                 basePrice(category.getBasePrice())
-                .basePrice(category.getBasePrice())
                 .build();
 
     }

@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "category")
+import java.math.BigDecimal;
+
+@Entity(name = "categories")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,12 +21,14 @@ public class CategoryData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategory;
     private String categoryName;
-    private Double basePrice;
+    private String categoryDescription;
+    private BigDecimal basePrice;
 
     public static final class CategoryDataBuilder{
         private Long idCategory;
         private String categoryName;
-        private Double basePrice;
+        private String categoryDescription;
+        private BigDecimal basePrice;
 
         public CategoryDataBuilder(){
 
@@ -43,8 +47,12 @@ public class CategoryData {
             this.categoryName = categoryName;
             return this;
         }
+        public CategoryData.CategoryDataBuilder categoryDescription(String categoryDescription){
+            this.categoryDescription = categoryDescription;
+            return this;
+        }
 
-        public CategoryData.CategoryDataBuilder basePrice(Double basePrice){
+        public CategoryData.CategoryDataBuilder basePrice(BigDecimal basePrice){
             this.basePrice = basePrice;
             return this;
         }
@@ -53,6 +61,7 @@ public class CategoryData {
             CategoryData categoryData = new CategoryData();
             categoryData.setIdCategory(idCategory);
             categoryData.setCategoryName(categoryName);
+            categoryData.setCategoryDescription(categoryDescription);
             categoryData.setBasePrice(basePrice);
             return categoryData;
         }

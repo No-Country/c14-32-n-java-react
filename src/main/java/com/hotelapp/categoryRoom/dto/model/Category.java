@@ -4,18 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
     private Long idCategory;
     private String categoryName;
-    private Double basePrice;
+    private String categoryDescription;
+    private BigDecimal basePrice;
 
   public static final class CategoryBuilder{
       private Long idCategory;
       private String categoryName;
-      private Double basePrice;
+      private String categoryDescription;
+      private BigDecimal basePrice;
 
       public CategoryBuilder(){
 
@@ -30,12 +34,17 @@ public class Category {
           return this;
       }
 
-      public  CategoryBuilder categoryName(String categoryName){
+      public CategoryBuilder categoryName(String categoryName){
           this.categoryName = categoryName;
           return this;
       }
 
-      public CategoryBuilder basePrice(Double basePrice){
+      public CategoryBuilder categoryDescription(String categoryDescription){
+          this.categoryDescription = categoryDescription;
+          return this;
+      }
+
+      public CategoryBuilder basePrice(BigDecimal basePrice){
           this.basePrice = basePrice;
           return this;
       }
@@ -44,6 +53,7 @@ public class Category {
           Category category = new Category();
           category.setIdCategory(idCategory);
           category.setCategoryName(categoryName);
+          category.setCategoryDescription(categoryDescription);
           category.setBasePrice(basePrice);
           return category;
       }

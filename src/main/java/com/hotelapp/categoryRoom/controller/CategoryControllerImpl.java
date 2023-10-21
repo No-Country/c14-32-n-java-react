@@ -40,8 +40,8 @@ public class CategoryControllerImpl extends GenericRestController implements Cat
     }
 
     @Override
-    public ResponseEntity<CustomResponse> getAllCategorys(int numberPage) {
-        return ok(getAllCategoryService.getAllCategorysPaginator(numberPage),null,REQUEST_CATEGORY);
+    public ResponseEntity<CustomResponse> getAllCategories(int numberPage) {
+        return ok(getAllCategoryService.getAllCategoryPaginator(numberPage),null,REQUEST_CATEGORY);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class GetAllCategoryService {
     }
 
 
- public Page<Category> getAllCategorysPaginator(int numberPage){
+ public Page<Category> getAllCategoryPaginator(int numberPage){
         return getAllCategoryFacade.getAllCategoryPaginator(numberPage);
     }
 

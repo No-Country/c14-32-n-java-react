@@ -1,5 +1,6 @@
 package com.hotelapp.categoryRoom.controller;
 
+import com.hotelapp.categoryRoom.controller.validate.ValidateCategory;
 import com.hotelapp.categoryRoom.dto.model.Category;
 import com.hotelapp.commons.controller.GenericRestController;
 import com.hotelapp.commons.dto.response.CustomResponse;
@@ -10,12 +11,14 @@ import com.hotelapp.categoryRoom.services.GetCategoryByIdService;
 import com.hotelapp.categoryRoom.services.GetAllCategoryService;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.hotelapp.categoryRoom.constants.CategoryConstants.REQUEST_CATEGORY;
 import static com.hotelapp.commons.constants.GlobalApiConstant.CREATED;
 import static com.hotelapp.commons.constants.GlobalApiConstant.DELETED_SUCCESSFULLY;
+import static com.hotelapp.customer.constants.CustomerConstants.REQUEST_CUSTOMER;
 
 
 @RestController
@@ -35,7 +38,11 @@ public class CategoryControllerImpl extends GenericRestController implements Cat
     }
 
     @Override
-    public ResponseEntity<CustomResponse> save(Category category) {
+    public ResponseEntity<CustomResponse> save(Category category,BindingResult bindingResult) {
+        ValidateCategory.validateCategoryRows(category, bindingResult);
+        if (bindingResult.hasErrors()){
+            return bad(category,bindingResult.getFieldError().getDefaultMessage(),REQUEST_CUSTOMER);
+        }
         return create(createCategoryService.saveCategory(category),CREATED, REQUEST_CATEGORY);
     }
 

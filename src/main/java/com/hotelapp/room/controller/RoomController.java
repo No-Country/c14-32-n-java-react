@@ -1,8 +1,9 @@
 package com.hotelapp.room.controller;
 
 import com.hotelapp.commons.dto.response.CustomResponse;
-import com.hotelapp.room.dto.model.Room;
+import com.hotelapp.room.dto.request.CreateRoomRequest;
 import com.hotelapp.room.dto.request.ReserveRoomRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import static com.hotelapp.commons.constants.GlobalApiConstant.ID_PARAM;
 public interface RoomController {
 
     @PostMapping
-    ResponseEntity<CustomResponse> save(@RequestBody Room room, BindingResult bindingResult);
+    ResponseEntity<CustomResponse> save(@Valid @RequestBody CreateRoomRequest createRoomRequest, BindingResult bindingResult);
 
     @PostMapping("/reserve-room")
     ResponseEntity<CustomResponse> reserveRoom(@RequestBody ReserveRoomRequest reserveRoomRequest);

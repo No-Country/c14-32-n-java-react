@@ -1,10 +1,6 @@
 package com.hotelapp.categoryRoom.db.sql.modeldata;
 
-import com.hotelapp.categoryRoom.dto.model.Category;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +25,7 @@ public class CategoryData {
         private String categoryName;
         private String categoryDescription;
         private BigDecimal basePrice;
+
 
         public CategoryDataBuilder(){
 
@@ -56,6 +53,7 @@ public class CategoryData {
             this.basePrice = basePrice;
             return this;
         }
+
 
         public CategoryData build(){
             CategoryData categoryData = new CategoryData();

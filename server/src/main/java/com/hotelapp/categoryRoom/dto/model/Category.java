@@ -2,7 +2,6 @@ package com.hotelapp.categoryRoom.dto.model;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,6 @@ public class Category {
     @NotBlank(message = "the categoryDescription cannot be blank")
     private String categoryDescription;
 
-    @Pattern(regexp = "^[0-9]+$", message = "the field must contain only numbers")
     @DecimalMin(value = "0.0", message = "The value must be greater than or equal to 0")
     private BigDecimal basePrice;
 

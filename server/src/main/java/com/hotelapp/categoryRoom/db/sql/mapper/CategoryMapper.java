@@ -4,12 +4,10 @@ import com.hotelapp.categoryRoom.db.sql.modeldata.CategoryData;
 import com.hotelapp.categoryRoom.dto.model.Category;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 
 @Component
 public class CategoryMapper {
-
-    public  Category categoryDataToCategory(CategoryData categoryData){
+    public Category categoryDataToCategory(CategoryData categoryData){
         return new Category.CategoryBuilder()
                 .idCategory(categoryData.getIdCategory())
                 .categoryName(categoryData.getCategoryName())
@@ -21,11 +19,11 @@ public class CategoryMapper {
     public CategoryData categoryToCategoryData(Category category){
         return new CategoryData.CategoryDataBuilder()
                 .idCategory(category.getIdCategory())
-                .categoryName(category.getCategoryName()).
-                categoryDescription(category.getCategoryDescription()).
-                basePrice(category.getBasePrice())
+                .categoryName(category.getCategoryName())
+                .categoryDescription(category.getCategoryDescription())
+                .basePrice(category.getBasePrice())
                 .build();
-
     }
+
 }
 

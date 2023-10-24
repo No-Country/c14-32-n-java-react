@@ -1,7 +1,6 @@
 package com.hotelapp.booking.dto.model;
 
 import com.hotelapp.room.dto.model.Room;
-import com.hotelapp.room.dto.model.enums.RoomState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

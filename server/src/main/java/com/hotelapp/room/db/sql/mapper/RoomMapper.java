@@ -1,8 +1,12 @@
 package com.hotelapp.room.db.sql.mapper;
 import com.hotelapp.booking.db.sql.modeldata.BookingData;
 import com.hotelapp.booking.dto.model.Booking;
+import com.hotelapp.categoryRoom.db.sql.modeldata.CategoryData;
+import com.hotelapp.categoryRoom.dto.model.Category;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
 import com.hotelapp.room.dto.model.Room;
+import com.hotelapp.room.dto.response.RoomResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,14 +17,17 @@ import static java.util.Objects.isNull;
 @Component
 public class RoomMapper {
     public Room roomDataToRoom(RoomData roomData){
+        Category category = categoryDataToCategory(roomData.getRoomCategory());
         List<BookingData> listBooking = null;
         if(!isNull(roomData.getListBooking())){
             listBooking = roomData.getListBooking();
         }
+
         return new Room.RoomBuilder()
                 .idRoom(roomData.getIdRoom())
                 .roomState(roomData.getRoomState())
                 .roomNumber(roomData.getRoomNumber())
+                .roomCategory(category)
                 .listBooking(listDataToBooking(listBooking))
                 .build();
     }
@@ -49,15 +56,47 @@ public class RoomMapper {
         ).collect(Collectors.toList());
     }
     public RoomData roomToRoomData(Room room){
+        CategoryData categoryData = categoryDataToCategory(room.getRoomCategory());
         List<BookingData> listBookingData = null;
         chargeListBookingData(listBookingData, room);
         return new RoomData.RoomDataBuilder()
                 .idRoom(room.getIdRoom())
                 .roomNumber(room.getRoomNumber())
                 .roomState(room.getRoomState())
+                .roomCategory(categoryData)
                 .listBooking(listBookingData)
                 .build();
     }
+
+
+
+    public Category categoryDataToCategory(CategoryData categoryData){
+        if(isNull(categoryData)){
+            return null;
+        }
+        return new Category.CategoryBuilder()
+                .idCategory(categoryData.getIdCategory())
+                .categoryName(categoryData.getCategoryName())
+                .categoryDescription(categoryData.getCategoryDescription())
+                .basePrice(categoryData.getBasePrice())
+                .build();
+    }
+
+    public CategoryData categoryDataToCategory(Category category){
+        if(isNull(category)){
+            return null;
+        }
+        return new CategoryData.CategoryDataBuilder()
+                .idCategory(category.getIdCategory())
+                .categoryName(category.getCategoryName())
+                .categoryDescription(category.getCategoryDescription())
+                .basePrice(category.getBasePrice())
+                .build();
+    }
+
+
+
+
 
     public void chargeListBookingData(List<BookingData> listBookingData, Room room){
         if(!isNull(room.getListBooking())){
@@ -74,6 +113,12 @@ public class RoomMapper {
                 .roomState(room.getRoomState())
                 .build();
     }
+
+
+    public RoomResponse roomToRoomResponse(Room room){
+        return new RoomResponse(room);
+    }
+
 
 
 }

@@ -4,6 +4,7 @@ import com.hotelapp.room.db.sql.jparepository.RoomRepository;
 import com.hotelapp.room.db.sql.mapper.RoomMapper;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
 import com.hotelapp.room.dto.model.Room;
+import com.hotelapp.room.dto.response.RoomResponse;
 import com.hotelapp.room.facade.CreateRoomFacade;
 import com.hotelapp.room.facade.DeleteRoomByIdFacade;
 import com.hotelapp.room.facade.GetAllRoomFacade;
@@ -24,17 +25,18 @@ public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade, GetRoomById
     }
 
     @Override
-    public Room saveRoom(Room room) {
-        return roomMapper.roomDataToRoom(
-                roomRepository.save(roomMapper.roomToRoomData(room)));
+    public RoomResponse saveRoom(Room room) {
+         Room roomSaved = roomMapper.roomDataToRoom(roomRepository.save(roomMapper.roomToRoomData(room)));
+         return roomMapper.roomToRoomResponse(roomSaved);
+
     }
 
     @Override
-    public Page<Room> getAllRoomsPaginator(int numberPage) {
+    public Page<RoomResponse> getAllRoomsPaginator(int numberPage) {
         int pageSize = 10;
         PageRequest page = PageRequest.of(numberPage, pageSize);
-        Page<RoomData> roomData = roomRepository.findAll(page);
-        return roomData.map(roomMapper::roomDataToRoom);
+        Page<Room> room = roomRepository.findAll(page).map(roomMapper::roomDataToRoom);
+        return room.map(roomMapper::roomToRoomResponse);
     }
 
     @Override

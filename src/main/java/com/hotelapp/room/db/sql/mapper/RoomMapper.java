@@ -5,6 +5,8 @@ import com.hotelapp.categoryRoom.db.sql.modeldata.CategoryData;
 import com.hotelapp.categoryRoom.dto.model.Category;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
 import com.hotelapp.room.dto.model.Room;
+import com.hotelapp.room.dto.response.RoomResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -111,6 +113,12 @@ public class RoomMapper {
                 .roomState(room.getRoomState())
                 .build();
     }
+
+
+    public RoomResponse roomToRoomResponse(Room room){
+        return new RoomResponse(room);
+    }
+
 
 
 }

@@ -1,6 +1,6 @@
 package com.hotelapp.room.services;
 
-import com.hotelapp.room.dto.model.Room;
+import com.hotelapp.room.dto.response.RoomResponse;
 import com.hotelapp.room.facade.GetAllRoomFacade;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class GetAllRoomService {
         this.getAllRoomFacade = getAllRoomFacade;
     }
 
-    public Page<Room> getAllRoomsPaginator(int numberPage){
+    public Page<RoomResponse> getAllRoomsPaginator(int numberPage){
         return getAllRoomFacade.getAllRoomsPaginator(numberPage);
     }
 }

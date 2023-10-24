@@ -1,9 +1,9 @@
 package com.hotelapp.room.services;
 
-import com.hotelapp.booking.dto.request.CreateBookingRequest;
 import com.hotelapp.room.dto.mappers.CreateRoomRequestMapper;
 import com.hotelapp.room.dto.model.Room;
 import com.hotelapp.room.dto.request.CreateRoomRequest;
+import com.hotelapp.room.dto.response.RoomResponse;
 import com.hotelapp.room.facade.CreateRoomFacade;
 import com.hotelapp.room.services.helper.CreateRoomHelper;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class CreateRoomService {
     }
 
 
-    public Room saveRoom(CreateRoomRequest createRoomRequest){
+    public RoomResponse saveRoom(CreateRoomRequest createRoomRequest){
         Room room = createRoomRequestMapper.createRoomRequestToRoom(createRoomRequest);
         createRoomHelper.setRoomCategory(room);
         return createRoomFacade.saveRoom(room);

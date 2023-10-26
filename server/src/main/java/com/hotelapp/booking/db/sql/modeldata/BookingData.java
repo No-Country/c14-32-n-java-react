@@ -1,10 +1,14 @@
 package com.hotelapp.booking.db.sql.modeldata;
+import com.hotelapp.booking.dto.model.enums.BookingState;
+import com.hotelapp.customer.db.sql.modeldata.CustomerData;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "bookings")
@@ -17,20 +21,29 @@ public class BookingData {
     private Long idBooking;
     private Date checkInDate;
     private Date checkOutDate;
-    private Integer guestNumber;
+    private LocalDateTime date;
+    private BookingState bookingState;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private CustomerData customer;
     private BigDecimal price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private RoomData room;
+
 
 
     public static final class BookingDataBuilder {
         private Long idBooking;
         private Date checkInDate;
         private Date checkOutDate;
-        private Integer guestNumber;
+        private LocalDateTime date;
+        private BookingState bookingState;
+        private CustomerData customer;
         private BigDecimal price;
         private RoomData room;
+
+
 
         public BookingDataBuilder() {
         }
@@ -54,8 +67,18 @@ public class BookingData {
             return this;
         }
 
-        public BookingDataBuilder guestNumber(Integer guestNumber) {
-            this.guestNumber = guestNumber;
+        public BookingDataBuilder date(LocalDateTime date) {
+            this.date = date;
+            return this;
+        }
+
+        public BookingDataBuilder bookingState(BookingState bookingState) {
+            this.bookingState = bookingState;
+            return this;
+        }
+
+        public BookingDataBuilder customer(CustomerData customer) {
+            this.customer = customer;
             return this;
         }
 
@@ -69,12 +92,16 @@ public class BookingData {
             return this;
         }
 
+
+
         public BookingData build() {
             BookingData bookingData = new BookingData();
             bookingData.setIdBooking(idBooking);
             bookingData.setCheckInDate(checkInDate);
             bookingData.setCheckOutDate(checkOutDate);
-            bookingData.setGuestNumber(guestNumber);
+            bookingData.setDate(date);
+            bookingData.setBookingState(bookingState);
+            bookingData.setCustomer(customer);
             bookingData.setPrice(price);
             bookingData.setRoom(room);
             return bookingData;

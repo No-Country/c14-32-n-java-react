@@ -2,13 +2,14 @@ package com.hotelapp.booking.db.sql.jpaimpl;
 import com.hotelapp.booking.db.sql.jparepository.BookingRepository;
 import com.hotelapp.booking.db.sql.mapper.BookingMapper;
 import com.hotelapp.booking.dto.model.Booking;
+import com.hotelapp.booking.dto.response.BookingReport;
 import com.hotelapp.booking.facade.CreateBookingFacade;
 import com.hotelapp.booking.facade.GetAllBookingFacade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
+@Service
 public class BookingImpl implements CreateBookingFacade, GetAllBookingFacade {
     private final BookingRepository bookingRepository;
 
@@ -21,15 +22,16 @@ public class BookingImpl implements CreateBookingFacade, GetAllBookingFacade {
 
     @Override
     public Booking saveBooking(Booking booking) {
+        System.out.println(booking);
         return bookingMapper.bookingDataToBooking(
                 bookingRepository.save(bookingMapper.bookingToBookingData(booking))
         );
     }
 
     @Override
-    public Page<Booking> getAllBookings(int numberPage) {
+    public Page<BookingReport> getAllBookings(int numberPage) {
         int pageSize = 10;
         PageRequest page = PageRequest.of(numberPage, pageSize);
-        return bookingRepository.findAll(page).map(bookingMapper::bookingDataToBooking);
+        return bookingRepository.findAll(page).map(bookingMapper::bookingDataToBookingReport );
     }
 }

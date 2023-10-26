@@ -28,7 +28,6 @@ public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade, GetRoomById
     public RoomResponse saveRoom(Room room) {
          Room roomSaved = roomMapper.roomDataToRoom(roomRepository.save(roomMapper.roomToRoomData(room)));
          return roomMapper.roomToRoomResponse(roomSaved);
-
     }
 
     @Override

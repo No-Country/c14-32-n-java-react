@@ -17,7 +17,7 @@ public class CustomerMapper {
                 .phone(customerData.getPhone())
                 .build();
     }
-    public CustomerData customerToRoomData(Customer customer){
+    public CustomerData customerToCustomerData(Customer customer){
         return new CustomerData.CustomerDataBuilder()
                 .idCustomer(customer.getIdCustomer())
                 .firstname(customer.getFirstname())

@@ -11,19 +11,22 @@ import static com.hotelapp.commons.constants.GlobalApiConstant.GENERIC_PAGINATOR
 import static com.hotelapp.commons.constants.GlobalApiConstant.ID_PARAM;
 
 public interface CustomerController {
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     ResponseEntity<CustomResponse> save(@Valid @RequestBody Customer customer, BindingResult bindingResult);
-
+    
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(GENERIC_PAGINATOR_PARAM)
     ResponseEntity<CustomResponse> getAll(@PathVariable int numberPage);
 
     @GetMapping(ID_PARAM)
     ResponseEntity<CustomResponse> getById(@PathVariable Long id);
-
+    
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping
     ResponseEntity<CustomResponse> update(@Valid @RequestBody Customer customer, BindingResult bindingResult);
-
+    
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping(ID_PARAM)
     ResponseEntity<CustomResponse> delete(@PathVariable Long id);
 

@@ -4,7 +4,6 @@ import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.booking.dto.response.BookingResponse;
 import com.hotelapp.room.dto.mappers.ReserveRoomMapper;
 import com.hotelapp.room.dto.model.Room;
-import com.hotelapp.room.dto.model.enums.RoomState;
 import com.hotelapp.room.dto.request.ReserveRoomRequest;
 import com.hotelapp.room.facade.CreateRoomFacade;
 import com.hotelapp.room.facade.GetRoomByIdFacade;
@@ -32,7 +31,7 @@ public class ReserveRoomService {
         Room room = getRoomByIdFacade.getRoomById(reserveRoomRequest.getIdRoom());
         addNewBookingToRoomObject(reserveRoomRequest, room);
         room.setRoomState(RESERVED);
-       createRoomFacade.saveRoom(room);
+        createRoomFacade.saveRoom(room);
        return roomMapper.RoomToReserveRoomRequest(room, reserveRoomRequest.getBooking());
     }
 

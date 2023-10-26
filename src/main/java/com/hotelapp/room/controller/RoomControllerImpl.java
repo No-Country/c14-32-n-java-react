@@ -45,6 +45,7 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
 
     @Override
     public ResponseEntity<CustomResponse> reserveRoom(ReserveRoomRequest reserveRoomRequest) {
+        System.out.println("controller reservation =>" +reserveRoomRequest );
         return ok(reserveRoomService.reserveRoom(reserveRoomRequest),"ok",REQUEST_ROOM);
     }
 

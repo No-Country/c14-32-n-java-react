@@ -1,10 +1,12 @@
 package com.hotelapp.booking.dto.response;
 
+import com.hotelapp.booking.dto.model.enums.BookingState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,12 +17,16 @@ public class BookingResponse {
     private BigDecimal price;
     private Date checkIn;
     private Date checkout;
+    private LocalDateTime date;
+    private BookingState bookingState;
 
     public static final class BookingResponseBuilder {
         private Integer roomNumber;
         private BigDecimal price;
         private Date checkIn;
         private Date checkout;
+        private LocalDateTime date;
+        private BookingState bookingState;
 
         public BookingResponseBuilder() {
         }
@@ -31,6 +37,12 @@ public class BookingResponse {
 
         public BookingResponseBuilder roomNumber(Integer roomNumber) {
             this.roomNumber = roomNumber;
+            return this;
+        }
+
+
+        public BookingResponseBuilder date(LocalDateTime date) {
+            this.date = date;
             return this;
         }
 
@@ -48,6 +60,10 @@ public class BookingResponse {
             this.checkout = checkout;
             return this;
         }
+        public BookingResponseBuilder bookingState(BookingState bookingState) {
+            this.bookingState = bookingState;
+            return this;
+        }
 
         public BookingResponse build() {
             BookingResponse bookingResponse = new BookingResponse();
@@ -55,6 +71,7 @@ public class BookingResponse {
             bookingResponse.setPrice(price);
             bookingResponse.setCheckIn(checkIn);
             bookingResponse.setCheckout(checkout);
+            bookingResponse.setDate(date);
             return bookingResponse;
         }
     }

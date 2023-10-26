@@ -1,9 +1,7 @@
 package com.hotelapp.booking.controller;
 
-import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.booking.dto.request.CreateBookingRequest;
 import com.hotelapp.commons.dto.response.CustomResponse;
-import com.hotelapp.room.dto.model.Room;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

@@ -6,10 +6,10 @@ import {
   setPage,
 } from "@/store/reducers/dashboardReducer/clients/clientsSlice";
 //
-import {
-  addCustomer,
-} from "@/store/reducers/dashboardReducer/clients/clientAddSlice";
+import { addCustomer } from "@/store/reducers/dashboardReducer/clients/clientAddSlice";
 import { deleteCustomer } from "@/store/reducers/dashboardReducer/clients/clientDeleteSlice";
+
+import { updateCustomer } from "@/store/reducers/dashboardReducer/clients/clientEditSlice";
 
 export default function ContainerClients() {
   const dispatch = useDispatch();
@@ -18,7 +18,59 @@ export default function ContainerClients() {
   const page = useSelector((state) => state.customers.page);
   const totalPages = useSelector((state) => state.customers.totalPages);
 
-  //
+  // UPDATE
+  const [formData, setFormData] = React.useState({
+    idCustomer: null,
+    firstname: "",
+    lastname: "",
+    dni: "",
+    email: "",
+    phone: "",
+  });
+  const [isPopupOpen, setIsPopupOpen] = React.useState(false);
+
+  const handleEditClick = (customerId) => {
+    // Copiar los datos del cliente seleccionado al estado formData
+    const selectedCustomer = customers.find(
+      (customer) => customer.idCustomer === customerId
+    );
+    setFormData(selectedCustomer);
+
+    // Abrir el popup
+    setIsPopupOpen(true);
+  };
+
+  const handleCancelEdit = () => {
+    // setEditingCustomerId(null);
+    setIsPopupOpen(false);
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    // Realizar la solicitud PUT para actualizar el cliente
+    dispatch(updateCustomer(formData))
+      .then(() => {
+        // setEditingCustomerId(null);
+        dispatch(fetchCustomersByPage(page));
+        setIsPopupOpen(false);
+        // Puedes actualizar la lista de clientes si es necesario
+      })
+      .catch((error) => {
+        // Lidiar con errores, mostrar un mensaje de error, etc.
+        console.log(error)
+      });
+  };
+
+  const handleInputEditChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  // END TO UPDATE
+
+  // DELETE
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [customerIdToDelete, setCustomerIdToDelete] = React.useState(null);
 
@@ -29,10 +81,12 @@ export default function ContainerClients() {
 
   const handleDeleteCustomer = () => {
     dispatch(deleteCustomer(customerIdToDelete)).then(() => {
-      dispatch(fetchCustomersByPage(page))
+      dispatch(fetchCustomersByPage(page));
     });
     setIsModalOpen(false);
   };
+
+  // DELETE CUSTOMER
 
   // REDUX ADDING ITEM
   const [isAddingPopup, setAddingPopup] = React.useState(false);
@@ -60,7 +114,6 @@ export default function ContainerClients() {
     });
     setAddingPopup(false);
   };
-
   // END TO REDUX ADDING ITEM
 
   const [showLoading, setShowLoading] = React.useState(true);
@@ -74,7 +127,6 @@ export default function ContainerClients() {
     };
     loadData();
   }, [dispatch, page]);
-  
 
   const handlePageChange = (newPage) => {
     dispatch(setPage(newPage));
@@ -88,6 +140,11 @@ export default function ContainerClients() {
     return fullName.toLowerCase().includes(searchTerm.toLowerCase());
   });
   // continued
+  // Search continued
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(0);
+  };
 
   // Navigation
   const itemsPerPage = 10;
@@ -97,12 +154,6 @@ export default function ContainerClients() {
   const endIndex = startIndex + itemsPerPage;
   const currentCustomers = filteredCustomers.slice(startIndex, endIndex);
   //
-
-  // Search continued
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(page);
-  };
 
   // Export Excel
   const exportToCSV = () => {
@@ -306,7 +357,12 @@ export default function ContainerClients() {
                   </td>
                   <td>
                     <div className="flex gap-3 px-5">
-                      <i className="icon-edit"></i>
+                      <button
+                        onClick={() => handleEditClick(customer.idCustomer)}
+                      >
+                        <i className="icon-edit"></i>
+                      </button>
+
                       <button
                         onClick={() => handleShowModal(customer.idCustomer)}
                       >
@@ -336,6 +392,109 @@ export default function ContainerClients() {
                 >
                   No
                 </button>
+              </div>
+            </div>
+          )}
+          {isPopupOpen && (
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="modal bg-white rounded shadow-lg p-8">
+                <form onSubmit={handleSaveEdit} className="w-full max-w-md">
+                  <div className="mb-4">
+                    <label
+                      htmlFor="firstname"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Nombre:
+                    </label>
+                    <input
+                      type="text"
+                      id="firstname"
+                      name="firstname"
+                      value={formData.firstname}
+                      onChange={handleInputEditChange}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="lastname"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Apellido:
+                    </label>
+                    <input
+                      type="text"
+                      id="lastname"
+                      name="lastname"
+                      value={formData.lastname}
+                      onChange={handleInputEditChange}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="dni"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      DNI:
+                    </label>
+                    <input
+                      type="text"
+                      id="dni"
+                      name="dni"
+                      value={formData.dni}
+                      onChange={handleInputEditChange}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="email"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Correo Electrónico:
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputEditChange}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="phone"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Teléfono:
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputEditChange}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="mb-4 flex gap-2">
+                    <button
+                      type="submit"
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Guardar Cambios
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancelEdit}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           )}

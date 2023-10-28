@@ -1,18 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Define una acción asincrónica que acepta un argumento "pageNumber"
+import axios from 'axios';
 
 export const fetchCategoriesByPage = createAsyncThunk(
   'categories/fetchByPage',
   async (pageNumber) => {
     try {
-      const response = await fetch(`http://localhost:8083/api/categories/page/${pageNumber}`);
-      if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
-      }
-      const data = await response.json();
-      return data.response;
-      
+      const response = await axios.get(`http://localhost:8083/api/categories/page/${pageNumber}`);
+      return response.data.response;
     } catch (error) {
       console.error('Error fetching data:', error);
       throw error;

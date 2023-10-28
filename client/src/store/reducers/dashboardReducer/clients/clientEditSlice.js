@@ -1,26 +1,24 @@
-// slices/customerSlice.js
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const updateCustomer = createAsyncThunk(
-  'customers/update',
-  async (customerData) => {
-    const response = await fetch('http://localhost:8083/api/customers', {
-      method: 'PUT',
+export const updateCustomer = createAsyncThunk('customers/update', async (customerData) => {
+  try {
+    const response = await axios.put('http://localhost:8083/api/customers', customerData, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(customerData),
     });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error('No se pudo actualizar el cliente.');
     }
 
-    const data = await response.json();
-    return data;
+    return response.data;
+  } catch (error) {
+    throw error;
   }
-);
+});
+
 
 const customerSlice = createSlice({
     name: 'customers',
@@ -29,9 +27,7 @@ const customerSlice = createSlice({
       status: 'idle',
       error: null,
     },
-    reducers: {
-      // Otros reducers para cargar datos de clientes, etc.
-    },
+    reducers: {},
     extraReducers: (builder) => {
       builder
         .addCase(updateCustomer.pending, (state) => {

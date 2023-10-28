@@ -1,27 +1,24 @@
 // customerSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from 'axios';
 
-// Define una acción asincrónica para agregar un cliente
 export const addRooms = createAsyncThunk(
-  "rooms/add",
+  'rooms/add',
   async (roomsData) => {
     try {
-      const response = await fetch("http://localhost:8083/api/rooms", {
-        method: "POST",
+      const response = await axios.post('http://localhost:8083/api/rooms', roomsData, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(roomsData),
       });
 
-      if (!response.ok) {
+      if (response.status !== 201) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
 
-      const data = await response.json();
-      return data;
+      return response.data;
     } catch (error) {
-      console.error("Error al agregar un cliente:", error);
+      console.error('Error adding room:', error);
       throw error;
     }
   }

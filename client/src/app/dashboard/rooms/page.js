@@ -29,7 +29,7 @@ export default function ContainerRooms() {
 
   const [roomData, setRoomData] = React.useState({
     roomNumber: "",
-    roomState: "",
+    roomState: 0,
     roomCategory: 0,
   });
 
@@ -133,21 +133,29 @@ export default function ContainerRooms() {
                     </p>
                   </div>
                   <input
-                    type="text"
+                    type="number" // Cambiar a tipo número
                     name="roomNumber"
                     value={roomData.roomNumber}
                     onChange={handleInputChange}
                     placeholder="Room"
                     className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
                   />
-                  <input
-                    type="text"
-                    name="roomState"
-                    value={roomData.roomState}
-                    onChange={handleInputChange}
-                    placeholder="State"
-                    className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
-                  />
+                  <div className="flex gap-2 items-center">
+                    <label htmlFor="roomState">Room Status:</label>
+                    <select
+                      id="roomState"
+                      name="roomState"
+                      value={roomData.roomState}
+                      onChange={handleInputChange}
+                      className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                    >
+                      <option value={0}>BUSY</option>
+                      <option value={1}>AVAILABLE</option>
+                      <option value={2}>RESERVED</option>
+                      <option value={3}>CLEANING</option>
+                      {/* Agrega más opciones de estado según sea necesario */}
+                    </select>
+                  </div>
                   <div className="flex gap-2 items-center">
                     <label htmlFor="roomCategory">Room Category:</label>
                     <select
@@ -195,7 +203,7 @@ export default function ContainerRooms() {
 
       {showLoading ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-8">
-          {[1, 2, 3, 4, 5, 6, 7, 8,9, 10].map((index) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => (
             <div
               key={index}
               className="p-4 bg-gray-200 animate-pulse shadow-md rounded-lg"
@@ -238,7 +246,7 @@ export default function ContainerRooms() {
           Page {page + 1} of {totalPages}
         </span>
         <button
-           onClick={() => handlePageChange(page + 1)}
+          onClick={() => handlePageChange(page + 1)}
           disabled={page === totalPages - 1}
           className={`${
             page === totalPages - 1

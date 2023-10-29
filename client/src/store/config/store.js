@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../reducers/loginReducer/loginSlice";
 
-
+// TODO: DESPUES ORDENAR >:V
 import roomsReducer from "../reducers/dashboardReducer/rooms/roomsSlice";
 import roomsAddReducer from "../reducers/dashboardReducer/rooms/roomsAddSlice";
+import roomsDeleteReducer from "../reducers/dashboardReducer/rooms/roomsDeleteSlice";
+import roomsEditReducer from "../reducers/dashboardReducer/rooms/roomsEditSlice";
 
+// 
 import bookingSlice from "../reducers/dashboardReducer/booking/bookingSlice";
 
 // TODO: ORDERARLO!!! >:V
@@ -30,6 +33,8 @@ export const store = configureStore({
     //
     rooms: roomsReducer,
     addrooms: roomsAddReducer,
+    deleterooms: roomsDeleteReducer,
+    editrooms: roomsEditReducer,
     //
     categories: categoriessReducer,
     addcategories: categoriessAddReducer,

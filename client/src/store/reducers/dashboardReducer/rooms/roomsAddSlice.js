@@ -28,7 +28,7 @@ export const addRooms = createAsyncThunk(
 const roomsSlice = createSlice({
   name: "rooms",
   initialState: {
-    addingStatus: "idle", // Estados posibles: 'idle', 'loading', 'succeeded', 'failed'
+    addingStatus: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {

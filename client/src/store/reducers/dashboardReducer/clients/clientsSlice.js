@@ -38,6 +38,7 @@ const customerSlice = createSlice({
         state.data = action.payload.content;
         state.totalPages = action.payload.totalPages;
         state.page = action.payload.pageable.pageNumber;
+        state.totalElements = action.payload.totalElements;
       })
       .addCase(fetchCustomersByPage.rejected, (state) => {
         state.loading = 'failed';

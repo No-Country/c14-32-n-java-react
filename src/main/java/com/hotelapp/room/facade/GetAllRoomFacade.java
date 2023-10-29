@@ -1,8 +1,8 @@
 package com.hotelapp.room.facade;
 
-import com.hotelapp.room.dto.response.RoomResponse;
+import com.hotelapp.room.dto.model.Room;
 import org.springframework.data.domain.Page;
 
 public interface GetAllRoomFacade {
-    Page<RoomResponse> getAllRoomsPaginator(int numberPage);
+    Page<Room> getAllRoomsPaginator(int numberPage);
 }

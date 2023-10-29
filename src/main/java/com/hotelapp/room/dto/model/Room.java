@@ -1,13 +1,10 @@
 package com.hotelapp.room.dto.model;
 
-import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.categoryRoom.dto.model.Category;
 import com.hotelapp.room.dto.model.enums.RoomState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 
 @Data
@@ -18,15 +15,12 @@ public class Room {
     private Integer roomNumber;
     private RoomState roomState;
     private Category roomCategory;
-    private List<Booking> listBooking;
-
 
     public static final class RoomBuilder {
         private Long idRoom;
         private Integer roomNumber;
         private RoomState roomState;
         private Category roomCategory;
-        private List<Booking> listBooking;
 
         public RoomBuilder() {
         }
@@ -55,10 +49,6 @@ public class Room {
             return this;
         }
 
-        public RoomBuilder listBooking(List<Booking> listBooking) {
-            this.listBooking = listBooking;
-            return this;
-        }
 
         public Room build() {
             Room room = new Room();
@@ -66,7 +56,6 @@ public class Room {
             room.setRoomNumber(roomNumber);
             room.setRoomState(roomState);
             room.setRoomCategory(roomCategory);
-            room.setListBooking(listBooking);
             return room;
         }
     }

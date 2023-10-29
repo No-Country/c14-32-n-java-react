@@ -1,15 +1,16 @@
 package com.hotelapp.booking.dto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hotelapp.booking.dto.model.enums.BookingState;
+import com.hotelapp.booking.dto.model.enums.PaymentType;
 import com.hotelapp.customer.dto.model.Customer;
 import com.hotelapp.room.dto.model.Room;
-import com.hotelapp.room.dto.model.enums.RoomState;
+import com.hotelapp.room.dto.response.RoomDataResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class Booking {
     private BookingState bookingState;
     private Customer customer;
     private BigDecimal price;
+    private PaymentType paymentType;
     private Room room;
 
 
@@ -37,6 +39,7 @@ public class Booking {
         private BookingState bookingState;
         private Customer customer;
         private BigDecimal price;
+        private PaymentType paymentType;
         private Room room;
 
 
@@ -81,6 +84,11 @@ public class Booking {
             return this;
         }
 
+        public BookingBuilder paymentType(PaymentType paymentType) {
+            this.paymentType = paymentType;
+            return this;
+        }
+
         public BookingBuilder room(Room room) {
             this.room = room;
             return this;
@@ -95,6 +103,7 @@ public class Booking {
             booking.setBookingState(bookingState);
             booking.setCustomer(customer);
             booking.setPrice(price);
+            booking.setPaymentType(paymentType);
             booking.setRoom(room);
 
             return booking;

@@ -25,6 +25,9 @@ public interface RoomController {
     @GetMapping(ID_PARAM)
     ResponseEntity<CustomResponse> getRoomById(@PathVariable Long id);
 
+    @PutMapping
+    ResponseEntity<CustomResponse> updateRoom(@RequestBody CreateRoomRequest createRoomRequest, BindingResult bindingResult);
+
     @DeleteMapping(ID_PARAM)
     ResponseEntity<CustomResponse> deleteRoomById(@PathVariable Long id);
 

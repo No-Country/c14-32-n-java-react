@@ -1,6 +1,7 @@
 package com.hotelapp.booking.controller;
 
 import com.hotelapp.booking.dto.request.CreateBookingRequest;
+import com.hotelapp.booking.dto.request.UpdateBookingRequest;
 import com.hotelapp.commons.dto.response.CustomResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,9 @@ public interface BookingController {
 
     @GetMapping(ID_PARAM)
     ResponseEntity<CustomResponse> getBookingById(@PathVariable Long id);
+
+    @PutMapping
+    ResponseEntity<CustomResponse> updateBooking(@RequestBody UpdateBookingRequest updateBookingRequest, BindingResult bindingResult );
 
     @DeleteMapping(ID_PARAM)
     ResponseEntity<CustomResponse> deleteBookingById(@PathVariable Long id);

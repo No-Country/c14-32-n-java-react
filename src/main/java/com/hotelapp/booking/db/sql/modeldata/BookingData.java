@@ -1,5 +1,7 @@
 package com.hotelapp.booking.db.sql.modeldata;
+
 import com.hotelapp.booking.dto.model.enums.BookingState;
+import com.hotelapp.booking.dto.model.enums.PaymentType;
 import com.hotelapp.customer.db.sql.modeldata.CustomerData;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
 import jakarta.persistence.*;
@@ -7,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -27,6 +28,9 @@ public class BookingData {
     @JoinColumn(name = "customer_id")
     private CustomerData customer;
     private BigDecimal price;
+
+    private PaymentType paymentType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private RoomData room;
@@ -41,6 +45,7 @@ public class BookingData {
         private BookingState bookingState;
         private CustomerData customer;
         private BigDecimal price;
+        private PaymentType paymentType;
         private RoomData room;
 
 
@@ -87,6 +92,11 @@ public class BookingData {
             return this;
         }
 
+        public BookingDataBuilder paymentType(PaymentType paymentType) {
+            this.paymentType = paymentType;
+            return this;
+        }
+
         public BookingDataBuilder room(RoomData room) {
             this.room = room;
             return this;
@@ -103,6 +113,7 @@ public class BookingData {
             bookingData.setBookingState(bookingState);
             bookingData.setCustomer(customer);
             bookingData.setPrice(price);
+            bookingData.setPaymentType(paymentType);
             bookingData.setRoom(room);
             return bookingData;
         }

@@ -1,4 +1,5 @@
 package com.hotelapp.categoryRoom.services;
+
 import com.hotelapp.categoryRoom.dto.model.Category;
 import com.hotelapp.categoryRoom.facade.GetCategoryByIdFacade;
 

@@ -1,8 +1,8 @@
 package com.hotelapp.booking.facade;
 
-import com.hotelapp.booking.dto.response.BookingReport;
+import com.hotelapp.booking.dto.model.Booking;
 import org.springframework.data.domain.Page;
 
 public interface GetAllBookingFacade {
-    Page<BookingReport> getAllBookings(int numberPage);
+    Page<Booking> getAllBookings(int numberPage);
 }

@@ -4,10 +4,7 @@ import com.hotelapp.categoryRoom.db.sql.jparepository.CategoryRepository;
 import com.hotelapp.categoryRoom.db.sql.mapper.CategoryMapper;
 import com.hotelapp.categoryRoom.db.sql.modeldata.CategoryData;
 import com.hotelapp.categoryRoom.dto.model.Category;
-import com.hotelapp.categoryRoom.facade.CreateCategoryFacade;
-import com.hotelapp.categoryRoom.facade.DeleteCategoryByIdFacade;
-import com.hotelapp.categoryRoom.facade.GetAllCategoryFacade;
-import com.hotelapp.categoryRoom.facade.GetCategoryByIdFacade;
+import com.hotelapp.categoryRoom.facade.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,7 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CategoryImpl implements CreateCategoryFacade, GetAllCategoryFacade, GetCategoryByIdFacade, DeleteCategoryByIdFacade {
+public class CategoryImpl implements CreateCategoryFacade, GetAllCategoryFacade, GetCategoryByIdFacade,
+        UpdateCategoryFacade,DeleteCategoryByIdFacade {
 
     private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
@@ -50,7 +48,21 @@ public class CategoryImpl implements CreateCategoryFacade, GetAllCategoryFacade,
     }
 
     @Override
+    public Category update(Category category) {
+        Optional<CategoryData> categoryDataOptional = categoryRepository
+                .findById(category.getIdCategory());
+        if (categoryDataOptional.isPresent()){
+            CategoryData updateCategoryData = categoryRepository
+                    .save(categoryMapper.categoryToCategoryData(category));
+            return categoryMapper.categoryDataToCategory(updateCategoryData);
+        }
+        return null;
+    }
+
+    @Override
     public void deleteCategoryById(Long id) {
         categoryRepository.deleteById(id);
     }
+
+
 }

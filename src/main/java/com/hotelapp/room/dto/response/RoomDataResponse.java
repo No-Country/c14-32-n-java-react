@@ -5,9 +5,10 @@ import com.hotelapp.room.dto.model.Room;
 import com.hotelapp.room.dto.model.enums.RoomState;
 
 
-public record RoomResponse(Long idRoom, Integer roomNumber, RoomState roomState, Category roomCategory) {
-    public RoomResponse(Room room){
-        this(room.getIdRoom(),room.getRoomNumber(), room.getRoomState(),
+public record RoomDataResponse(Long idRoom, Integer roomNumber, RoomState roomState, Category roomCategory) {
+
+    public RoomDataResponse(Room room){
+        this(room.getIdRoom(),room.getRoomNumber(),room.getRoomState(),
                 room.getRoomCategory());
     }
 }

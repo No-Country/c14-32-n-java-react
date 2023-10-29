@@ -2,7 +2,6 @@ package com.hotelapp.booking.db.sql.mapper;
 
 import com.hotelapp.booking.db.sql.modeldata.BookingData;
 import com.hotelapp.booking.dto.model.Booking;
-import com.hotelapp.booking.dto.response.BookingReport;
 import com.hotelapp.customer.db.sql.mapper.CustomerMapper;
 import com.hotelapp.customer.db.sql.modeldata.CustomerData;
 import com.hotelapp.room.db.sql.mapper.RoomMapper;
@@ -36,8 +35,8 @@ public class BookingMapper {
                 .customer(customer)
                 .idBooking(bookingData.getIdBooking())
                 .price(bookingData.getPrice())
+                .paymentType(bookingData.getPaymentType())
                 .room(room)
-
                 .build();
     }
 
@@ -54,15 +53,9 @@ public class BookingMapper {
                 .customer(customerData)
                 .idBooking(booking.getIdBooking())
                 .price(booking.getPrice())
+                .paymentType(booking.getPaymentType())
                 .room(roomData)
                 .build();
 
     }
-
-    public BookingReport bookingDataToBookingReport(BookingData bookingData){
-       Booking booking = bookingDataToBooking(bookingData);
-        return new BookingReport(booking);
-    }
-
-
 }

@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignorar archivos de configuración de IDE y archivos de compilación
+../.idea/
+../target/

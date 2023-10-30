@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
   fetchCategoriesByPage,
   setPage,
@@ -19,77 +21,84 @@ export default function ContainerCategories() {
 
   // Adding Category
   const [isAddingPopup, setAddingPopup] = React.useState(false);
+  // 
+  const [isPopupOpen, setIsPopupOpen] = React.useState(false);
 
   const addingStatus = useSelector((state) => state.addcategories.addingStatus);
 
-  const [categoryData, setCategoryData] = React.useState({
-    categoryName: "",
-    categoryDescription: "",
-    basePrice: null,
+  // const [categoryData, setCategoryData] = React.useState({
+  //   categoryName: "",
+  //   categoryDescription: "",
+  //   basePrice: null,
+  // });
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setCategoryData({ ...categoryData, [name]: value });
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(addCategories(categoryData)).then(() => {
+  //     dispatch(fetchCategoriesByPage(page));
+  //   });
+  //   setAddingPopup(false);
+  // };
+
+  // Definir el esquema de validación Yup para las categorías
+  const categoryValidationSchema = Yup.object({
+    categoryName: Yup.string().required("Category Name is required"),
+    categoryDescription: Yup.string().required(
+      "Category Description is required"
+    ),
+    basePrice: Yup.number()
+      .required("Base Price is required")
+      .positive("Base Price must be positive"),
   });
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCategoryData({ ...categoryData, [name]: value });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(addCategories(categoryData)).then(() => {
-      dispatch(fetchCategoriesByPage(page));
-    });
-    setAddingPopup(false);
-  };
-  // END TO ADDING CATEGORY
-
-
-  // TODO: FALTA INTEGRAR EL ACTUALIZADO
-  // Editing Category
-  const [formData, setFormData] = React.useState({
-    idCategory: null,
-    categoryName: "",
-    categoryDescription: "",
-    basePrice: null,
+  // Formulario para agregar y editar categorías
+  const categoryFormik = useFormik({
+    initialValues: {
+      idCategory: null,
+      categoryName: "",
+      categoryDescription: "",
+      basePrice: null,
+    },
+    validationSchema: categoryValidationSchema,
+    onSubmit: (values, { resetForm }) => {
+      if (values.idCategory) {
+        // Realizar la solicitud PUT para actualizar la categoría
+        dispatch(updateCategories(values))
+          .then(() => {
+            dispatch(fetchCategoriesByPage(page));
+            setIsPopupOpen(false);
+            resetForm();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        // Realizar la solicitud POST para agregar la categoría
+        dispatch(addCategories(values))
+          .then(() => {
+            dispatch(fetchCategoriesByPage(page));
+            setAddingPopup(false);
+            resetForm();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
   });
-  const [isPopupOpen, setIsPopupOpen] = React.useState(false);
 
-  const handleEditClick = (categoryId) => {
-    // Copiar los datos del cliente seleccionado al estado formData
+  const handleEditClick = (idCategory) => {
     const selectedCategory = categories.find(
-      (category) => category.idCustomer === categoryId
+      (category) => category.idCategory === idCategory
     );
-    setFormData(selectedCategory);
-
-    // Abrir el popup
+    categoryFormik.setValues(selectedCategory);
     setIsPopupOpen(true);
   };
-
-  const handleCancelEdit = () => {
-    setIsPopupOpen(false);
-  };
-
-  const handleSaveEdit = (e) => {
-    e.preventDefault();
-    // Realizar la solicitud PUT para actualizar el cliente
-    dispatch(updateCategories(formData))
-      .then(() => {
-         dispatch(fetchCategoriesByPage(page));
-        setIsPopupOpen(false);
-        // Puedes actualizar la lista de clientes si es necesario
-      })
-      .catch((error) => {
-        // Lidiar con errores, mostrar un mensaje de error, etc.
-        console.log(error)
-      });
-  };
-
-  const handleInputEditChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-  // END Editing CATEGORY
+  // END TO ADDING CATEGORY
 
 
   // Delete category
@@ -214,53 +223,89 @@ export default function ContainerCategories() {
             {isAddingPopup && (
               <div className="fixed inset-0 flex items-center justify-center z-50">
                 <div className="modal bg-white rounded shadow-lg p-4 sm:p-8">
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                    <div className="flex justify-between">
-                      <h3>Add Category</h3>
-                      <p
-                        className="cursor-pointer"
-                        onClick={() => setAddingPopup(false)}
+                  <form
+                    onSubmit={categoryFormik.handleSubmit}
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    <div className="mb-4">
+                      <label
+                        htmlFor="categoryName"
+                        className="block text-gray-700 text-sm font-bold mb-2"
                       >
-                        <i className="fas fa-x-ray"></i>
-                      </p>
+                        Category Name:
+                      </label>
+                      <input
+                        type="text"
+                        id="categoryName"
+                        name="categoryName"
+                        value={categoryFormik.values.categoryName}
+                        onChange={categoryFormik.handleChange}
+                        onBlur={categoryFormik.handleBlur}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                      {categoryFormik.touched.categoryName &&
+                        categoryFormik.errors.categoryName && (
+                          <p className="text-red-500 text-xs italic">
+                            {categoryFormik.errors.categoryName}
+                          </p>
+                        )}
                     </div>
-                    <input
-                      type="text"
-                      name="categoryName"
-                      value={categoryData.categoryName}
-                      onChange={handleInputChange}
-                      placeholder="Name"
-                      className="border rounded p-2 mb-2"
-                    />
-                    <input
-                      type="text"
-                      name="categoryDescription"
-                      value={categoryData.categoryDescription}
-                      onChange={handleInputChange}
-                      placeholder="Description"
-                      className="border rounded p-2 mb-2"
-                    />
-                    <input
-                      type="text"
-                      name="basePrice"
-                      value={categoryData.basePrice}
-                      onChange={handleInputChange}
-                      placeholder="Price"
-                      className="border rounded p-2 mb-2"
-                    />
-                    <div className="flex justify-end items-center mt-4">
+
+                    <div className="mb-6">
+                      <label
+                        htmlFor="categoryDescription"
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                      >
+                        Category Description:
+                      </label>
+                      <textarea
+                        id="categoryDescription"
+                        name="categoryDescription"
+                        value={categoryFormik.values.categoryDescription}
+                        onChange={categoryFormik.handleChange}
+                        onBlur={categoryFormik.handleBlur}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                      {categoryFormik.touched.categoryDescription &&
+                        categoryFormik.errors.categoryDescription && (
+                          <p className="text-red-500 text-xs italic">
+                            {categoryFormik.errors.categoryDescription}
+                          </p>
+                        )}
+                    </div>
+
+                    <div className="mb-6">
+                      <label
+                        htmlFor="basePrice"
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                      >
+                        Base Price:
+                      </label>
+                      <input
+                        type="number"
+                        id="basePrice"
+                        name="basePrice"
+                        value={categoryFormik.values.basePrice}
+                        onChange={categoryFormik.handleChange}
+                        onBlur={categoryFormik.handleBlur}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                      {categoryFormik.touched.basePrice &&
+                        categoryFormik.errors.basePrice && (
+                          <p className="text-red-500 text-xs italic">
+                            {categoryFormik.errors.basePrice}
+                          </p>
+                        )}
+                    </div>
+
+                    <div className="flex items-center justify-between">
                       <button
                         type="submit"
-                        disabled={addingStatus === "loading"}
-                        className={`bg-${
-                          addingStatus === "loading" ? "gray" : "blue"
-                        }-500 text-white py-2 px-4 rounded hover:bg-${
-                          addingStatus === "loading" ? "gray" : "blue"
-                        }-700 mr-2`}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         {addingStatus === "loading"
                           ? "Adding..."
-                          : "Add Categorie"}
+                          : "Add Category"}
                       </button>
                       <button
                         onClick={() => setAddingPopup(false)}
@@ -273,7 +318,7 @@ export default function ContainerCategories() {
                 </div>
               </div>
             )}
-
+            {/*  */}
             <button
               onClick={exportToCSV}
               className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
@@ -339,17 +384,21 @@ export default function ContainerCategories() {
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                     <div className="flex gap-3">
-                      <i className="icon-edit"></i>{" "}
-                      <button  onClick={() => handleShowModal(category.idCategory)}>
+                      <button onClick={() => handleEditClick(category.idCategory)}>
+                        <i className="icon-edit"></i>
+                      </button>
+                      <button
+                        onClick={() => handleShowModal(category.idCategory)}
+                      >
                         <i className="icon-remove"></i>
                       </button>
-                      
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {/* DELETE */}
           {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="modal bg-white rounded shadow-lg p-8">
@@ -371,6 +420,105 @@ export default function ContainerCategories() {
               </div>
             </div>
           )}
+          {/* END TO DELETE */}
+          {/* UPDATE */}
+          {isPopupOpen && (
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="modal bg-white rounded shadow-lg p-4 sm:p-8">
+                <form
+                  onSubmit={categoryFormik.handleSubmit}
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  <div className="mb-4">
+                    <label
+                      htmlFor="categoryName"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Category Name:
+                    </label>
+                    <input
+                      type="text"
+                      id="categoryName"
+                      name="categoryName"
+                      value={categoryFormik.values.categoryName}
+                      onChange={categoryFormik.handleChange}
+                      onBlur={categoryFormik.handleBlur}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {categoryFormik.touched.categoryName &&
+                      categoryFormik.errors.categoryName && (
+                        <p className="text-red-500 text-xs italic">
+                          {categoryFormik.errors.categoryName}
+                        </p>
+                      )}
+                  </div>
+
+                  <div className="mb-6">
+                    <label
+                      htmlFor="categoryDescription"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Category Description:
+                    </label>
+                    <textarea
+                      id="categoryDescription"
+                      name="categoryDescription"
+                      value={categoryFormik.values.categoryDescription}
+                      onChange={categoryFormik.handleChange}
+                      onBlur={categoryFormik.handleBlur}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {categoryFormik.touched.categoryDescription &&
+                      categoryFormik.errors.categoryDescription && (
+                        <p className="text-red-500 text-xs italic">
+                          {categoryFormik.errors.categoryDescription}
+                        </p>
+                      )}
+                  </div>
+
+                  <div className="mb-6">
+                    <label
+                      htmlFor="basePrice"
+                      className="block text-gray-700 text-sm font-bold mb-2"
+                    >
+                      Base Price:
+                    </label>
+                    <input
+                      type="number"
+                      id="basePrice"
+                      name="basePrice"
+                      value={categoryFormik.values.basePrice}
+                      onChange={categoryFormik.handleChange}
+                      onBlur={categoryFormik.handleBlur}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {categoryFormik.touched.basePrice &&
+                      categoryFormik.errors.basePrice && (
+                        <p className="text-red-500 text-xs italic">
+                          {categoryFormik.errors.basePrice}
+                        </p>
+                      )}
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="submit"
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      onClick={() => setAddingPopup(false)}
+                      className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+          {/* END TO UPDATE */}
         </article>
       )}
       <div className="flex justify-end mt-4">

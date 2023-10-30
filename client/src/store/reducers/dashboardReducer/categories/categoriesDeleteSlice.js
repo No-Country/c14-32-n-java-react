@@ -1,15 +1,21 @@
-// customerSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const deleteCategories = createAsyncThunk('categories/delete', async (customerId) => {
-  const response = await fetch(`http://localhost:8083/api/categories/${customerId}`, {
-    method: 'DELETE',
-  });
-  if (!response.ok) {
-    throw new Error(`Request failed with status: ${response.status}`);
+export const deleteCategories = createAsyncThunk(
+  'categories/delete',
+  async (categoryId) => {
+    try {
+      const response = await axios.delete(`http://localhost:8083/api/categories/${categoryId}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+      return categoryId;
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      throw error;
+    }
   }
-  return customerId;
-});
+);
 
 const categoriesSlice = createSlice({
   name: 'categories',

@@ -20,6 +20,8 @@ public class ReserveRoomRequest {
         public ReserveRoomBuilder() {
         }
 
+
+
         public static ReserveRoomBuilder aBookRoomRequest() {
             return new ReserveRoomBuilder();
         }

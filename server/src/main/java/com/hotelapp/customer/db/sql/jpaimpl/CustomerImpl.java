@@ -28,7 +28,7 @@ public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade
     @Override
     public Customer saveCustomer(Customer customer) {
         return customerMapper.customerDataToCustomer(customerRepository
-                .save(customerMapper.customerToRoomData(customer))) ;
+                .save(customerMapper.customerToCustomerData(customer))) ;
     }
 
     @Override
@@ -55,7 +55,11 @@ public class CustomerImpl implements CreateCustomerFacade, GetAllCustomersFacade
                 .findById(customer.getIdCustomer());
         if (customerDataOptional.isPresent()){
             CustomerData updatedCustomerData = customerRepository
+<<<<<<< HEAD
                     .save(customerMapper.customerToRoomData(customer));
+=======
+                    .save(customerMapper.customerToCustomerData(customer));
+>>>>>>> f0503167c5bd22dc1d7fcc021c58f605db93079c
             return customerMapper.customerDataToCustomer(updatedCustomerData);
         }
         return null;

@@ -1,6 +1,5 @@
 package com.hotelapp.room.db.sql.modeldata;
 
-import com.hotelapp.booking.db.sql.modeldata.BookingData;
 import com.hotelapp.categoryRoom.db.sql.modeldata.CategoryData;
 import com.hotelapp.room.dto.model.enums.RoomState;
 import jakarta.persistence.*;
@@ -8,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Entity(name = "rooms")
 @Data
@@ -18,22 +16,22 @@ public class RoomData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRoom;
+
+    @Column(unique = true)
     private Integer roomNumber;
+
     private RoomState roomState;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CategoryData roomCategory;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookingData> listBooking;
 
     public static final class RoomDataBuilder {
         private Long idRoom;
         private Integer roomNumber;
         private RoomState roomState;
         private CategoryData roomCategory;
-        private List<BookingData> listBooking;
 
         public RoomDataBuilder() {
         }
@@ -62,20 +60,12 @@ public class RoomData {
             return this;
         }
 
-
-
-        public RoomDataBuilder listBooking(List<BookingData> listBooking) {
-            this.listBooking = listBooking;
-            return this;
-        }
-
         public RoomData build() {
             RoomData roomData = new RoomData();
             roomData.setIdRoom(idRoom);
             roomData.setRoomNumber(roomNumber);
             roomData.setRoomState(roomState);
             roomData.setRoomCategory(roomCategory);
-            roomData.setListBooking(listBooking);
             return roomData;
         }
     }

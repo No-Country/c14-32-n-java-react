@@ -16,6 +16,7 @@ public class CategoryData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategory;
+    @Column(unique = true)
     private String categoryName;
     private String categoryDescription;
     private BigDecimal basePrice;

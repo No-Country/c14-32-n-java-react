@@ -4,11 +4,7 @@ import com.hotelapp.room.db.sql.jparepository.RoomRepository;
 import com.hotelapp.room.db.sql.mapper.RoomMapper;
 import com.hotelapp.room.db.sql.modeldata.RoomData;
 import com.hotelapp.room.dto.model.Room;
-import com.hotelapp.room.dto.response.RoomResponse;
-import com.hotelapp.room.facade.CreateRoomFacade;
-import com.hotelapp.room.facade.DeleteRoomByIdFacade;
-import com.hotelapp.room.facade.GetAllRoomFacade;
-import com.hotelapp.room.facade.GetRoomByIdFacade;
+import com.hotelapp.room.facade.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -16,7 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade, GetRoomByIdFacade, DeleteRoomByIdFacade {
+public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade,
+        GetRoomByIdFacade,UpdateRoomFacade ,DeleteRoomByIdFacade {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
     public RoomImpl(RoomRepository roomRepository, RoomMapper roomMapper) {
@@ -25,18 +22,16 @@ public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade, GetRoomById
     }
 
     @Override
-    public RoomResponse saveRoom(Room room) {
-         Room roomSaved = roomMapper.roomDataToRoom(roomRepository.save(roomMapper.roomToRoomData(room)));
-         return roomMapper.roomToRoomResponse(roomSaved);
-
+    public Room saveRoom(Room room) {
+        RoomData roomData = roomRepository.save(roomMapper.roomToRoomData(room));
+        return roomMapper.roomDataToRoom(roomData);
     }
 
     @Override
-    public Page<RoomResponse> getAllRoomsPaginator(int numberPage) {
+    public Page<Room> getAllRoomsPaginator(int numberPage) {
         int pageSize = 10;
         PageRequest page = PageRequest.of(numberPage, pageSize);
-        Page<Room> room = roomRepository.findAll(page).map(roomMapper::roomDataToRoom);
-        return room.map(roomMapper::roomToRoomResponse);
+        return roomRepository.findAll(page).map(roomMapper::roomDataToRoom);
     }
 
     @Override
@@ -47,6 +42,18 @@ public class RoomImpl implements CreateRoomFacade, GetAllRoomFacade, GetRoomById
         }
         return null;
     }
+
+    @Override
+    public Room updateRoom(Room room) {
+        Optional<RoomData> roomDataOptional = roomRepository.findById(room.getIdRoom());
+        if (roomDataOptional.isPresent()){
+            RoomData roomData = roomRepository.save(roomMapper.roomToRoomData(room));
+            return roomMapper.roomDataToRoom(roomData);
+        }
+        return null;
+    }
+
+
 
     @Override
     public void deleteRoomById(Long id) {

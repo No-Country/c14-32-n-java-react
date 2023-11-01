@@ -25,7 +25,7 @@ const categoriesSlice = createSlice({
   },
   reducers: {
     setPage: (state, action) => {
-      state.page = action.payload.pageable.pageNumber;
+      state.page = action.payload;
     },
   },
   extraReducers: (builder) => {

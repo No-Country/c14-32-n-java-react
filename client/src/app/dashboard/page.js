@@ -41,8 +41,8 @@ export default function Home() {
 
       {showLoading ? (
         <React.Fragment>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {Array(3)
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Array(4)
               .fill(null)
               .map((_, index) => (
                 <div
@@ -55,11 +55,11 @@ export default function Home() {
                 </div>
               ))}
           </div>
-          <div className="bg-white rounded-lg p-4 animate-pulse mt-3">
+          {/* <div className="bg-white rounded-lg p-4 animate-pulse mt-3">
             <div className="h-32 w-32 bg-gray-100 rounded-md mb-4"></div>
             <div className="h-4 w-24 bg-gray-100 rounded-md mb-2"></div>
             <div className="h-4 w-28 bg-gray-100 rounded-md"></div>
-          </div>
+          </div> */}
         </React.Fragment>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">

@@ -131,7 +131,9 @@ export default function ContainerRooms() {
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       String(room.roomState).toLowerCase().includes(searchTerm.toLowerCase()) ||
-      String(room.roomCategory.categoryName).toLowerCase().includes(searchTerm.toLowerCase())
+      String(room.roomCategory.categoryName)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     );
   });
 
@@ -153,8 +155,10 @@ export default function ContainerRooms() {
 
   return (
     <section className="flex flex-col gap-6 pt-5">
-      <div className='bg-white rounded-2xl w-60 p-2'>
-        <p>Hotel Managment / <strong className='text-gray-600'>Rooms</strong></p>
+      <div className="bg-white rounded-2xl w-60 p-2">
+        <p>
+          Hotel Managment / <strong className="text-gray-600">Rooms</strong>
+        </p>
       </div>
       {showLoading ? (
         <section className="flex flex-col md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
@@ -188,7 +192,10 @@ export default function ContainerRooms() {
                     <h3 className="text-xl font-semibold">Add Room</h3>
                     <p
                       className="cursor-pointer text-gray-600 hover-text-gray-800"
-                      onClick={() => {setAddingPopup(false); roomFormik.resetForm();}}
+                      onClick={() => {
+                        setAddingPopup(false);
+                        roomFormik.resetForm();
+                      }}
                     >
                       X
                     </p>
@@ -210,7 +217,7 @@ export default function ContainerRooms() {
                       onChange={roomFormik.handleChange}
                       className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     >
-                      <option>Selected</option>
+                      <option>SELECT</option>
                       <option value={0}>BUSY</option>
                       <option value={1}>AVAILABLE</option>
                       <option value={2}>CLEANING</option>
@@ -227,7 +234,7 @@ export default function ContainerRooms() {
                       onChange={roomFormik.handleChange}
                       className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     >
-                      <option>Selected</option>
+                      <option>SELECT</option>
                       {categories.map((category) => (
                         <option
                           key={category.idCategory}
@@ -278,7 +285,7 @@ export default function ContainerRooms() {
       ) : loading === "failed" ? (
         <p>Error al cargar los datos</p>
       ) : (
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-2" >
+        <section className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-5">
           {currentRooms.map((room) => (
             <article
               key={room.idRoom}
@@ -310,7 +317,7 @@ export default function ContainerRooms() {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="modal bg-white rounded shadow-lg p-8">
                 <p className="mb-4">
-                Are you sure you want to delete this room?
+                  Are you sure you want to delete this room?
                 </p>
                 <button
                   onClick={handleDeleteRoom}
@@ -342,7 +349,10 @@ export default function ContainerRooms() {
                     </h3>
                     <p
                       className="cursor-pointer text-gray-600 hover-text-gray-800"
-                      onClick={() => {setIsPopupOpen(false); roomFormik.resetForm();}}
+                      onClick={() => {
+                        setIsPopupOpen(false);
+                        roomFormik.resetForm();
+                      }}
                     >
                       X
                     </p>
@@ -364,7 +374,7 @@ export default function ContainerRooms() {
                       onChange={roomFormik.handleChange}
                       className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     >
-                      <option>Change option</option>
+                      <option>Select</option>
                       <option value={0}>BUSY</option>
                       <option value={1}>AVAILABLE</option>
                       <option value={2}>CLEANING</option>
@@ -381,7 +391,7 @@ export default function ContainerRooms() {
                       onChange={roomFormik.handleChange}
                       className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     >
-                      <option>Change option</option>
+                      <option>Select</option>
                       {categories.map((category) => (
                         <option
                           key={category.idCategory}
@@ -416,28 +426,28 @@ export default function ContainerRooms() {
           {/* END TO EDIT */}
         </section>
       )}
-      
-      <div className="flex justify-between mt-4">
+
+      <div className="flex justify-end mt-4">
         <button
+          className={`cursor-pointer px-4 py-2 ${
+            page === 0 ? "text-gray-400" : "text-blue-500 hover:text-blue-700"
+          }`}
           onClick={() => handlePageChange(page - 1)}
           disabled={page === 0}
-          className={`${
-            page === 0 ? "bg-gray-200" : "bg-blue-500 hover:bg-blue-600"
-          } text-white px-4 py-2 rounded`}
         >
           Previous
         </button>
-        <span className="mx-4">
+        <span className="pt-2 text-gray-400">
           Page {page + 1} of {totalPages}
         </span>
         <button
+          className={`cursor-pointer px-4 py-2 ${
+            page === totalPages - 1
+              ? "text-gray-400"
+              : "text-blue-500 hover:text-blue-700"
+          }`}
           onClick={() => handlePageChange(page + 1)}
           disabled={page === totalPages - 1}
-          className={`${
-            page === totalPages - 1
-              ? "bg-gray-200"
-              : "bg-blue-500 hover:bg-blue-600"
-          } text-white px-4 py-2 rounded`}
         >
           Next
         </button>

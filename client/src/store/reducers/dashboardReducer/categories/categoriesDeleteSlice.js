@@ -1,41 +1,45 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const deleteCategories = createAsyncThunk(
-  'categories/delete',
+  "categories/delete",
   async (categoryId) => {
     try {
-      const response = await axios.delete(`http://localhost:8083/api/categories/${categoryId}`);
+      const response = await axios.delete(
+        `http://localhost:8083/api/categories/${categoryId}`
+      );
       if (response.status !== 200) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
       return categoryId;
     } catch (error) {
-      console.error('Error deleting category:', error);
+      console.error("Error deleting category:", error);
       throw error;
     }
   }
 );
 
 const categoriesSlice = createSlice({
-  name: 'categories',
+  name: "categories",
   initialState: {
     data: [], // Tu estado de datos de clientes
-    loading: 'idle',
+    loading: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(deleteCategories.pending, (state) => {
-        state.loading = 'loading';
+        state.loading = "loading";
       })
       .addCase(deleteCategories.fulfilled, (state, action) => {
-        state.loading = 'succeeded';
+        state.loading = "succeeded";
         // Eliminar el cliente de la lista de datos
-        state.data = state.data.filter((customer) => customer.idCustomer !== action.payload);
+        state.data = state.data.filter(
+          (category) => category.idCategory !== action.payload
+        );
       })
       .addCase(deleteCategories.rejected, (state) => {
-        state.loading = 'failed';
+        state.loading = "failed";
       });
   },
 });

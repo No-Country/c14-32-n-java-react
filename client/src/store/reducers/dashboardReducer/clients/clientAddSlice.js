@@ -12,7 +12,7 @@ export const addCustomer = createAsyncThunk(
         },
       });
 
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
 

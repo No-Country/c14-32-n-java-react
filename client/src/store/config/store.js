@@ -13,7 +13,6 @@ import bookingAddReducer from "../reducers/dashboardReducer/booking/bookingAddSl
 import bookingDeleteReducer from "../reducers/dashboardReducer/booking/bookinDeleteSlice";
 import bookingEditReducer from "../reducers/dashboardReducer/booking/bookingEditSlice";
 
-
 // TODO: ORDENAR
 import categoriessReducer from "../reducers/dashboardReducer/categories/categoriesSlice";
 import categoriessAddReducer from "../reducers/dashboardReducer/categories/categoriesAddSlice";
@@ -25,6 +24,11 @@ import clientsReducer from "../reducers/dashboardReducer/clients/clientsSlice";
 import clientsAddReducer from "../reducers/dashboardReducer/clients/clientAddSlice";
 import clientsDeleteReducer from "../reducers/dashboardReducer/clients/clientDeleteSlice";
 import clientsEditReducer from "../reducers/dashboardReducer/clients/clientEditSlice";
+
+// TODO: ORDENAR
+import checkOutAddReducer from "../reducers/dashboardReducer/registers/registerAddCheckOutSlice";
+import checkInAddReducer from "../reducers/dashboardReducer/registers/registersAddCheckInSlice";
+import registersReducer from "../reducers/dashboardReducer/registers/registersSlice";
 
 export const store = configureStore({
   reducer: {
@@ -44,10 +48,15 @@ export const store = configureStore({
     addcategories: categoriessAddReducer,
     deletecategories: categoriessDeleteReducer,
     editcategories: categoriessEditReducer,
-    // 
+    //
     booking: bookingReducer,
     addbooking: bookingAddReducer,
     deletebooking: bookingDeleteReducer,
     editbooking: bookingEditReducer,
+
+    //
+    register: registersReducer,
+    checkoutadd: checkOutAddReducer,
+    checkinadd: checkInAddReducer,
   },
 });

@@ -37,7 +37,7 @@ const bookingsSlice = createSlice({
         state.loading = "succeeded";
         // Eliminar el cliente de la lista de datos
         state.data = state.data.filter(
-          (customer) => customer.idCustomer !== action.payload
+          (book) => book.idBooking !== action.payload
         );
       })
       .addCase(deleteBooking.rejected, (state) => {

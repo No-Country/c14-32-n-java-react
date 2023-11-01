@@ -20,8 +20,8 @@ export default function ContainerReceptions() {
   const dispatch = useDispatch();
   const booking = useSelector((state) => state.booking.data);
   const loading = useSelector((state) => state.booking.loading);
-  const page = useSelector((state) => state.customers.page);
-  const totalPages = useSelector((state) => state.customers.totalPages);
+  const page = useSelector((state) => state.booking.page);
+  const totalPages = useSelector((state) => state.booking.totalPages);
 
   const customers = useSelector((state) => state.customers.data);
   const rooms = useSelector((state) => state.rooms.data);
@@ -45,8 +45,8 @@ export default function ContainerReceptions() {
       idBooking: null,
       idRoom: "",
       idCustomer: "",
-      checkInDate: "dd/mm/yyyy --:--",
-      checkOutDate: "dd/mm/yyyy --:--",
+      checkInDate: "",
+      checkOutDate: "",
       paymentType: "",
       bookingState: "",
     },
@@ -152,171 +152,190 @@ export default function ContainerReceptions() {
 
   return (
     <div className="mt-5 flex flex-col gap-5">
-      <div className='bg-white rounded-2xl w-60 p-2'>
-        <p>Hotel Managment / <strong className='text-gray-600'>Bookings</strong></p>
+      <div className="bg-white rounded-2xl w-60 p-2">
+        <p>
+          Hotel Managment / <strong className="text-gray-600">Bookings</strong>
+        </p>
       </div>
-      <div className="flex flex-col mb-4 md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="p-2 border border-gray-300 rounded"
-        />
-        <div className="flex gap-3">
-          <button
-            onClick={() => setAddingPopup(true)}
-            className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700"
-          >
-            Add Booking
-          </button>
-          {isAddingPopup && (
-            <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="modal bg-white rounded shadow-lg p-4 sm:p-8 w-96">
-                <form
-                  onSubmit={bookingFormik.handleSubmit}
-                  className="w-full max-w-md mx-auto"
-                >
-                  <div className="mb-4 flex gap-4 items-center">
-                    <label
-                      htmlFor="idRoom"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Room
-                    </label>
 
-                    <select
-                      id="idRoom"
-                      name="idRoom"
-                      value={bookingFormik.values.idRoom}
-                      onChange={bookingFormik.handleChange}
-                      className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
-                    >
-                      <option>Select</option>
-                      {rooms
-                        .filter((room) => room.roomState === "AVAILABLE")
-                        .map((room) => (
-                          <option key={room.idRoom} value={room.idRoom}>
-                            {room.roomNumber}
+      {showLoading ? (
+        <section className="flex flex-col md:flex-row md:justify-between items-center md:gap-0 gap-4 mt-5 rounded-2xl p-5 bg-white ">
+          <div className="animate-pulse">
+            <div className="p-2 border border-gray-300 rounded-md h-10 w-64"></div>
+          </div>
+          <div className="flex gap-3">
+            <div className="animate-pulse">
+              <button className="bg-sky-300 text-gray-300 px-4 py-2 rounded-md">
+                Loading...
+              </button>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <div className="flex flex-col mb-4 md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="p-2 border border-gray-300 rounded"
+          />
+          <div className="flex gap-3">
+            <button
+              onClick={() => setAddingPopup(true)}
+              className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700"
+            >
+              Add Booking
+            </button>
+            {isAddingPopup && (
+              <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className="modal bg-white rounded shadow-lg p-4 sm:p-8 w-96">
+                  <form
+                    onSubmit={bookingFormik.handleSubmit}
+                    className="w-full max-w-md mx-auto"
+                  >
+                    <div className="mb-4 flex gap-4 items-center">
+                      <label
+                        htmlFor="idRoom"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Room
+                      </label>
+
+                      <select
+                        id="idRoom"
+                        name="idRoom"
+                        value={bookingFormik.values.idRoom}
+                        onChange={bookingFormik.handleChange}
+                        className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                      >
+                        <option>Select</option>
+                        {rooms
+                          .filter((room) => room.roomState === "AVAILABLE")
+                          .map((room) => (
+                            <option key={room.idRoom} value={room.idRoom}>
+                              {room.roomNumber}
+                            </option>
+                          ))}
+                      </select>
+                      {bookingFormik.errors.idRoom && (
+                        <p className="text-red-600 text-sm mt-1">
+                          {bookingFormik.errors.idRoom}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mb-4 flex gap-2 items-center">
+                      <label
+                        htmlFor="idCustomer"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Customer
+                      </label>
+                      <select
+                        id="idCustomer"
+                        name="idCustomer"
+                        value={bookingFormik.values.idCustomer}
+                        onChange={bookingFormik.handleChange}
+                        className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                      >
+                        <option>Select</option>
+                        {customers.map((customer) => (
+                          <option
+                            key={customer.idCustomer}
+                            value={customer.idCustomer}
+                          >
+                            {customer.firstname} {customer.lastname}
                           </option>
                         ))}
-                    </select>
-                    {bookingFormik.errors.idRoom && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {bookingFormik.errors.idRoom}
-                      </p>
-                    )}
-                  </div>
+                      </select>
 
-                  <div className="mb-4 flex gap-2 items-center">
-                    <label
-                      htmlFor="idCustomer"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Customer
-                    </label>
-                    <select
-                      id="idCustomer"
-                      name="idCustomer"
-                      value={bookingFormik.values.idCustomer}
-                      onChange={bookingFormik.handleChange}
-                      className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
-                    >
-                      <option>Select</option>
-                      {customers.map((customer) => (
-                        <option
-                          key={customer.idCustomer}
-                          value={customer.idCustomer}
-                        >
-                          {customer.firstname} {customer.lastname}
-                        </option>
-                      ))}
-                    </select>
+                      {bookingFormik.errors.idCustomer && (
+                        <p className="text-red-600 text-sm mt-1">
+                          {bookingFormik.errors.idCustomer}
+                        </p>
+                      )}
+                    </div>
 
-                    {bookingFormik.errors.idCustomer && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {bookingFormik.errors.idCustomer}
-                      </p>
-                    )}
-                  </div>
+                    <div className="mb-4">
+                      <label
+                        htmlFor="checkInDate"
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                      >
+                        Fecha de Check-In
+                      </label>
+                      <input
+                        type="datetime-local"
+                        id="checkInDate"
+                        name="checkInDate"
+                        onChange={bookingFormik.handleChange}
+                        value={bookingFormik.values.checkInDate}
+                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label
+                        htmlFor="checkOutDate"
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                      >
+                        Fecha de Check-Out
+                      </label>
+                      <input
+                        type="datetime-local"
+                        id="checkOutDate"
+                        name="checkOutDate"
+                        onChange={bookingFormik.handleChange}
+                        value={bookingFormik.values.checkOutDate}
+                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      />
+                    </div>
 
-                  <div className="mb-4">
-                    <label
-                      htmlFor="checkInDate"
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                    >
-                      Fecha de Check-In
-                    </label>
-                    <input
-                      type="datetime-local"
-                      id="checkInDate"
-                      name="checkInDate"
-                      onChange={bookingFormik.handleChange}
-                      value={bookingFormik.values.checkInDate}
-                      className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="checkOutDate"
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                    >
-                      Fecha de Check-Out
-                    </label>
-                    <input
-                      type="datetime-local"
-                      id="checkOutDate"
-                      name="checkOutDate"
-                      onChange={bookingFormik.handleChange}
-                      value={bookingFormik.values.checkOutDate}
-                      className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                  </div>
+                    <div className="mb-4 flex gap-2">
+                      <label
+                        htmlFor="paymentType"
+                        className="block text-gray-700 text-sm font-bold mb-2"
+                      >
+                        Tipo de Pago
+                      </label>
+                      <select
+                        id="paymentType"
+                        name="paymentType"
+                        onChange={bookingFormik.handleChange}
+                        value={bookingFormik.values.paymentType}
+                        className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
+                      >
+                        <option>Select</option>
+                        <option value="0">CREDIT</option>
+                        <option value="1">DEBIT</option>
+                        <option value="2">CASH</option>
+                      </select>
+                    </div>
 
-                  <div className="mb-4 flex gap-2">
-                    <label
-                      htmlFor="paymentType"
-                      className="block text-gray-700 text-sm font-bold mb-2"
-                    >
-                      Tipo de Pago
-                    </label>
-                    <select
-                      id="paymentType"
-                      name="paymentType"
-                      onChange={bookingFormik.handleChange}
-                      value={bookingFormik.values.paymentType}
-                      className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
-                    >
-                      <option>Select</option>
-                      <option value="0">CREDIT</option>
-                      <option value="1">DEBIT</option>
-                      <option value="2">CASH</option>
-                    </select>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <button
-                      type="submit"
-                      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
-                    >
-                      Submit
-                    </button>
-                    <button
-                      onClick={() => {
-                        setAddingPopup(false);
-                        bookingFormik.resetForm();
-                      }}
-                      className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-500"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
+                    <div className="flex gap-4">
+                      <button
+                        type="submit"
+                        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
+                      >
+                        Submit
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAddingPopup(false);
+                          bookingFormik.resetForm();
+                        }}
+                        className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-500"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
       {showLoading ? (
         <div className="bg-white rounded-2xl">
           <table className="min-w-full">
@@ -571,9 +590,12 @@ export default function ContainerReceptions() {
                       name="paymentType"
                       onChange={bookingFormik.handleChange}
                       value={bookingFormik.values.paymentType}
+                      // onSelectCapture={bookingFormik.values.paymentType}
                       className="border rounded p-2 focus:outline-none focus:ring focus:ring-blue-500"
                     >
-                      <option>Select</option>
+                      <option value="default" disabled hidden>
+                        Select
+                      </option>
                       <option value="0">CREDIT</option>
                       <option value="1">DEBIT</option>
                       <option value="2">CASH</option>
@@ -635,17 +657,23 @@ export default function ContainerReceptions() {
 
       <div className="flex justify-end mt-4">
         <button
-          className="cursor-pointer"
+          className={`cursor-pointer px-4 py-2 ${
+            page === 0 ? "text-gray-400" : "text-blue-500 hover:text-blue-700"
+          }`}
           onClick={() => handlePageChange(page - 1)}
           disabled={page === 0}
         >
           Previous
         </button>
-        <span className="mx-4">
+        <span className="pt-2 text-gray-400">
           Page {page + 1} of {totalPages}
         </span>
         <button
-          className="cursor-pointer"
+          className={`cursor-pointer px-4 py-2 ${
+            page === totalPages - 1
+              ? "text-gray-400"
+              : "text-blue-500 hover:text-blue-700"
+          }`}
           onClick={() => handlePageChange(page + 1)}
           disabled={page === totalPages - 1}
         >

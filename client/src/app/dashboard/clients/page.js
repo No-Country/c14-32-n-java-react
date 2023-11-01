@@ -361,7 +361,7 @@ export default function ContainerClients() {
       ) : loading === "failed" ? (
         <p>Error al cargar los datos</p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-2xl" style={{ height: "50vh"}}>
+        <div className="overflow-x-auto bg-white rounded-2xl" style={{ height: "65vh"}}>
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
@@ -408,13 +408,13 @@ export default function ContainerClients() {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="modal bg-white rounded shadow-lg p-8">
                 <p className="mb-4">
-                  ¿Estás seguro de que deseas eliminar este cliente?
+                Are you sure you want to delete this client?
                 </p>
                 <button
                   onClick={handleDeleteCustomer}
                   className="bg-red-500 text-white py-2 px-4 rounded mr-2 hover:bg-red-700"
                 >
-                  Sí
+                  Yes
                 </button>
                 <button
                   onClick={() => setIsModalOpen(false)}
@@ -537,7 +537,7 @@ export default function ContainerClients() {
                       type="submit"
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Guardar Cambios
+                      Save changes
                     </button>
                     <button
                       type="button"
@@ -547,7 +547,7 @@ export default function ContainerClients() {
                       }}
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Cancelar
+                      Cancel
                     </button>
                   </div>
                 </form>

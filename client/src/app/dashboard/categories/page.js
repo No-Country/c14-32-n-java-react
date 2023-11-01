@@ -21,11 +21,10 @@ export default function ContainerCategories() {
 
   // Adding Category
   const [isAddingPopup, setAddingPopup] = React.useState(false);
-  // 
+  //
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
 
   const addingStatus = useSelector((state) => state.addcategories.addingStatus);
-
 
   // Definir el esquema de validación Yup para las categorías
   const categoryValidationSchema = Yup.object({
@@ -44,7 +43,7 @@ export default function ContainerCategories() {
       idCategory: null,
       categoryName: "",
       categoryDescription: "",
-      basePrice: null,
+      basePrice: 0,
     },
     validationSchema: categoryValidationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -74,15 +73,14 @@ export default function ContainerCategories() {
     },
   });
 
-  const handleEditClick = (idCategory) => {
+  const handleEditClick = (idCategories) => {
     const selectedCategory = categories.find(
-      (category) => category.idCategory === idCategory
+      (category) => category.idCategory === idCategories
     );
     categoryFormik.setValues(selectedCategory);
     setIsPopupOpen(true);
   };
   // END TO ADDING CATEGORY
-
 
   // Delete category
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -100,7 +98,7 @@ export default function ContainerCategories() {
     setIsModalOpen(false);
   };
 
-  // end to delete
+  // End to delete
 
   // LAZY LOADING
   const [showLoading, setShowLoading] = React.useState(true);
@@ -166,8 +164,11 @@ export default function ContainerCategories() {
 
   return (
     <section className="pt-5  flex flex-col gap-5">
-      <div className='bg-white rounded-2xl w-64 p-2'>
-        <p>Hotel Managment / <strong className='text-gray-600'>Categories</strong></p>
+      <div className="bg-white rounded-2xl w-64 p-2">
+        <p>
+          Hotel Managment /{" "}
+          <strong className="text-gray-600">Categories</strong>
+        </p>
       </div>
       {showLoading ? (
         <section className="flex flex-col md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
@@ -343,7 +344,10 @@ export default function ContainerCategories() {
       ) : loading === "failed" ? (
         <p>Error Here!!</p>
       ) : (
-        <article className="overflow-x-auto bg-white rounded-2xl" style={{ height: "50vh"}}>
+        <article
+          className="overflow-x-auto bg-white rounded-2xl"
+          style={{ height: "50vh" }}
+        >
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
@@ -369,7 +373,9 @@ export default function ContainerCategories() {
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                     <div className="flex gap-3">
-                      <button onClick={() => handleEditClick(category.idCategory)}>
+                      <button
+                        onClick={() => handleEditClick(category.idCategory)}
+                      >
                         <i className="icon-edit"></i>
                       </button>
                       <button
@@ -388,13 +394,13 @@ export default function ContainerCategories() {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="modal bg-white rounded shadow-lg p-8">
                 <p className="mb-4">
-                  ¿Estás seguro de que deseas eliminar esta categoria?
+                Are you sure you want to delete this category?
                 </p>
                 <button
                   onClick={handleDeleteCategory}
                   className="bg-red-500 text-white py-2 px-4 rounded mr-2 hover:bg-red-700"
                 >
-                  Sí
+                  Yes
                 </button>
                 <button
                   onClick={() => setIsModalOpen(false)}
@@ -508,17 +514,23 @@ export default function ContainerCategories() {
       )}
       <div className="flex justify-end mt-4">
         <button
-          className="cursor-pointer"
+          className={`cursor-pointer px-4 py-2 ${
+            page === 0 ? "text-gray-400" : "text-blue-500 hover:text-blue-700"
+          }`}
           onClick={() => handlePageChange(page - 1)}
           disabled={page === 0}
         >
           Previous
         </button>
-        <span className="mx-4">
+        <span className="pt-2 text-gray-400">
           Page {page + 1} of {totalPages}
         </span>
         <button
-          className="cursor-pointer"
+          className={`cursor-pointer px-4 py-2 ${
+            page === totalPages - 1
+              ? "text-gray-400"
+              : "text-blue-500 hover:text-blue-700"
+          }`}
           onClick={() => handlePageChange(page + 1)}
           disabled={page === totalPages - 1}
         >

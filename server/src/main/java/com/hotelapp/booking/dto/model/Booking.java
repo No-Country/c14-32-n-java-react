@@ -22,7 +22,7 @@ public class Booking {
     private Long idBooking;
     private Date checkInDate;
     private Date checkOutDate;
-    private LocalDateTime date;
+    private Date date;
     private BookingState bookingState;
     private Customer customer;
     private BigDecimal price;
@@ -30,12 +30,11 @@ public class Booking {
     private Room room;
 
 
-
     public static final class BookingBuilder {
         private Long idBooking;
         private Date checkInDate;
         private Date checkOutDate;
-        private LocalDateTime date;
+        private Date date;
         private BookingState bookingState;
         private Customer customer;
         private BigDecimal price;
@@ -65,7 +64,7 @@ public class Booking {
             return this;
         }
 
-        public BookingBuilder date(LocalDateTime date) {
+        public BookingBuilder date(Date date) {
             this.date = date;
             return this;
         }

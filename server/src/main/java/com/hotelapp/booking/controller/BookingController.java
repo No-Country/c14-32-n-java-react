@@ -1,8 +1,10 @@
 package com.hotelapp.booking.controller;
 
 import com.hotelapp.booking.dto.request.CreateBookingRequest;
+import com.hotelapp.booking.dto.request.CustomerDataRequest;
 import com.hotelapp.booking.dto.request.UpdateBookingRequest;
 import com.hotelapp.commons.dto.response.CustomResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +28,8 @@ public interface BookingController {
 
     @DeleteMapping(ID_PARAM)
     ResponseEntity<CustomResponse> deleteBookingById(@PathVariable Long id);
+
+    @PostMapping("/search-booking")
+    public ResponseEntity<CustomResponse> getBookingByGuestData(@Valid @RequestBody CustomerDataRequest customerDataRequest);
 
 }

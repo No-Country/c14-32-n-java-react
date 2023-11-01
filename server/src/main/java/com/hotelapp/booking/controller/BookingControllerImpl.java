@@ -2,8 +2,8 @@ package com.hotelapp.booking.controller;
 
 import com.hotelapp.booking.controller.validate.ValidateBooking;
 import com.hotelapp.booking.controller.validate.ValidateUpdateBooking;
-import com.hotelapp.booking.dto.model.Booking;
 import com.hotelapp.booking.dto.request.CreateBookingRequest;
+import com.hotelapp.booking.dto.request.CustomerDataRequest;
 import com.hotelapp.booking.dto.request.UpdateBookingRequest;
 import com.hotelapp.booking.dto.response.BookingReport;
 import com.hotelapp.booking.services.*;
@@ -14,10 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static com.hotelapp.booking.constants.BookingConstants.REQUEST_BOOKING;
 import static com.hotelapp.commons.constants.GlobalApiConstant.*;
-import static com.hotelapp.customer.constants.CustomerConstants.REQUEST_CUSTOMER;
-import static com.hotelapp.room.constants.RoomConstants.REQUEST_ROOM;
 
 @RestController
 @RequestMapping(REQUEST_BOOKING)
@@ -27,14 +27,16 @@ public class BookingControllerImpl extends GenericRestController implements Book
     private final GetBookingByIdService getBookingByIdService;
     private final UpdateBookingService updateBookingService;
     private final DeleteBookingService deleteBookingService;
+    private final GetByCustomerDataService getByCustomerDataService;
     public BookingControllerImpl(CreateBookingService createBookingService, GetAllBookingService getAllBookingService,
                                  GetBookingByIdService getBookingByIdService,UpdateBookingService updateBookingService,
-                                 DeleteBookingService deleteBookingService) {
+                                 DeleteBookingService deleteBookingService,GetByCustomerDataService getByCustomerDataService) {
         this.createBookingService   = createBookingService;
         this.getAllBookingService   = getAllBookingService;
         this.getBookingByIdService  = getBookingByIdService;
         this.updateBookingService   = updateBookingService;
         this.deleteBookingService   = deleteBookingService;
+        this.getByCustomerDataService  = getByCustomerDataService;
     }
 
 
@@ -77,6 +79,13 @@ public class BookingControllerImpl extends GenericRestController implements Book
     @Override
     public ResponseEntity<CustomResponse> deleteBookingById(Long id) {
         deleteBookingService.deleteBooking(id);
-        return ok(null,DELETED_SUCCESSFULLY, REQUEST_ROOM);
+        return ok(null,DELETED_SUCCESSFULLY, REQUEST_BOOKING);
+    }
+
+    @Override
+    public ResponseEntity<CustomResponse> getBookingByGuestData(CustomerDataRequest customerDataRequest){
+        List<BookingReport> bookingReportList = getByCustomerDataService.getBookingByCustomerData(customerDataRequest);
+        if (bookingReportList.isEmpty()) return notFound(null,NOT_FOUND, REQUEST_BOOKING );
+        return ok(bookingReportList,null,REQUEST_BOOKING);
     }
 }

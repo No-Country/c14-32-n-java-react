@@ -4,7 +4,6 @@ import com.hotelapp.commons.controller.GenericRestController;
 import com.hotelapp.commons.dto.response.CustomResponse;
 import com.hotelapp.room.controller.validate.ValidateRoom;
 import com.hotelapp.room.dto.request.CreateRoomRequest;
-import com.hotelapp.room.dto.request.ReserveRoomRequest;
 import com.hotelapp.room.dto.response.RoomDataResponse;
 import com.hotelapp.room.services.*;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.hotelapp.categoryRoom.constants.CategoryConstants.REQUEST_CATEGORY;
 import static com.hotelapp.commons.constants.GlobalApiConstant.*;
 import static com.hotelapp.room.constants.RoomConstants.REQUEST_ROOM;
 
@@ -46,11 +44,6 @@ public class RoomControllerImpl extends GenericRestController implements RoomCon
             return bad(room,bindingResult.getFieldError().getDefaultMessage(),REQUEST_ROOM);
         }
         return create(createRoomService.saveRoom(room),CREATED, REQUEST_ROOM);
-    }
-
-    @Override
-    public ResponseEntity<CustomResponse> reserveRoom(ReserveRoomRequest reserveRoomRequest) {
-        return ok(reserveRoomService.reserveRoom(reserveRoomRequest),"ok",REQUEST_ROOM);
     }
 
     @Override

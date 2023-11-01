@@ -16,10 +16,6 @@ import static java.util.Objects.isNull;
 public class CreateBookingRequestMapper {
 
     public Booking createBookingRequestToBooking(CreateBookingRequest createBookingRequest){
-        /*Long id = null;
-        if(!isNull(createBookingRequest.idBooking())){
-            id = createBookingRequest.idBooking();
-        }*/
         Room room = new Room.RoomBuilder().idRoom(createBookingRequest.idRoom()).build();
 
         Customer customer = new Customer.CustomerBuilder().idCustomer(createBookingRequest.idCustomer()).build();

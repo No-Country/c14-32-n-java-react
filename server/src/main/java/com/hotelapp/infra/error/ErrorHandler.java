@@ -23,10 +23,10 @@ public class ErrorHandler {
     }
 
 
-    @ExceptionHandler(IntegrityValidation.class)
+    /*@ExceptionHandler(IntegrityValidation.class)
     public ResponseEntity errorHandlerIntegrity(Exception e){
         return ResponseEntity.badRequest().body(e.getMessage());
-    }
+    }*/
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity errorHandlerBusinessValidation(Exception e){
@@ -63,6 +63,15 @@ public class ErrorHandler {
         public ValidationErrorData(FieldError error){
             this(error.getField(),error.getDefaultMessage());
         }
+    }
+
+
+    @ExceptionHandler(IntegrityValidation.class)
+    public ResponseEntity<CustomResponse> handleIntegrityValidation(IntegrityValidation ex) {
+        CustomResponse customResponse = new CustomResponse();
+        customResponse.setCode(HttpStatus.BAD_REQUEST.toString());
+        customResponse.setMessage(ex.getMessage());
+        return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -22,7 +22,7 @@ public class BookingData {
     private Long idBooking;
     private Date checkInDate;
     private Date checkOutDate;
-    private LocalDateTime date;
+    private Date date;
     private BookingState bookingState;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
@@ -41,7 +41,7 @@ public class BookingData {
         private Long idBooking;
         private Date checkInDate;
         private Date checkOutDate;
-        private LocalDateTime date;
+        private Date date;
         private BookingState bookingState;
         private CustomerData customer;
         private BigDecimal price;
@@ -72,7 +72,7 @@ public class BookingData {
             return this;
         }
 
-        public BookingDataBuilder date(LocalDateTime date) {
+        public BookingDataBuilder date(Date date) {
             this.date = date;
             return this;
         }

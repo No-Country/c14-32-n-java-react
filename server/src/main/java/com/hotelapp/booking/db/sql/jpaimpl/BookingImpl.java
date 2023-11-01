@@ -3,16 +3,19 @@ import com.hotelapp.booking.db.sql.jparepository.BookingRepository;
 import com.hotelapp.booking.db.sql.mapper.BookingMapper;
 import com.hotelapp.booking.db.sql.modeldata.BookingData;
 import com.hotelapp.booking.dto.model.Booking;
+import com.hotelapp.booking.dto.request.CustomerDataRequest;
 import com.hotelapp.booking.facade.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BookingImpl implements CreateBookingFacade, GetAllBookingFacade, UpdateBookingFacade,
-        GetBookingByIdFacade, DeleteBookingFacade {
+        GetBookingByIdFacade, DeleteBookingFacade,GetByCustomerDataFacade {
     private final BookingRepository bookingRepository;
 
     private final BookingMapper bookingMapper;
@@ -48,6 +51,7 @@ public class BookingImpl implements CreateBookingFacade, GetAllBookingFacade, Up
         return null;
     }
 
+
     @Override
     public Booking getBookingById(Long id) {
         Optional<BookingData> bookingDataOptional = bookingRepository.findById(id);
@@ -61,5 +65,19 @@ public class BookingImpl implements CreateBookingFacade, GetAllBookingFacade, Up
     @Override
     public void deleteBooking(Long id) {
         bookingRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Booking> getByCustomerData(CustomerDataRequest customerDataRequest) {
+
+        List<BookingData> bookingDataList = bookingRepository
+                .findByCustomer_FirstnameContainingAndCustomer_LastnameContainingIgnoreCase
+                        (customerDataRequest.firstname(),customerDataRequest.lastname());
+        List<Booking> bookingList = new ArrayList<>();
+        for (BookingData bookingData : bookingDataList) {
+            Booking booking = bookingMapper.bookingDataToBooking(bookingData);
+            bookingList.add(booking);
+        }
+        return bookingList;
     }
 }

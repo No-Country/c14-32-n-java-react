@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 public record BookingReport(Long idBooking, Date checkInDate, Date checkOutDate,
-                            LocalDateTime date, BookingState bookingState, BigDecimal price, PaymentType paymentType,
+                            Date date, BookingState bookingState, BigDecimal price, PaymentType paymentType,
                             RoomDataResponse room, Customer customer) {
     public BookingReport(Booking booking) {
         this(booking.getIdBooking(),booking.getCheckInDate(),booking.getCheckOutDate(),

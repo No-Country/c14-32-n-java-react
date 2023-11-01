@@ -1,17 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-// Define una acción asincrónica que acepta un argumento "pageNumber"
+import axios from 'axios';
 
 export const fetchRoomsByPage = createAsyncThunk(
   'rooms/fetchByPage',
   async (pageNumber) => {
     try {
-      const response = await fetch(`http://localhost:8083/api/rooms/page/${pageNumber}`);
-      if (!response.ok) {
+      const response = await axios.get(`http://localhost:8083/api/rooms/page/${pageNumber}`);
+      if (response.status !== 200) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
-      const data = await response.json();
-      return data.response;
+      return response.data.response;
     } catch (error) {
       console.error('Error fetching data:', error);
       throw error;
@@ -42,6 +40,7 @@ const roomsSlice = createSlice({
         state.data = action.payload.content;
         state.totalPages = action.payload.totalPages;
         state.page = action.payload.pageable.pageNumber;
+        state.totalElements = action.payload.totalElements;
       })
       .addCase(fetchRoomsByPage.rejected, (state) => {
         state.loading = 'failed';

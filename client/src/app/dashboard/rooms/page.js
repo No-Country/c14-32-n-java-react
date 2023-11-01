@@ -6,7 +6,7 @@ import {
   setPage,
 } from "@/store/reducers/dashboardReducer/rooms/roomsSlice";
 
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { addRooms } from "@/store/reducers/dashboardReducer/rooms/roomsAddSlice";
@@ -152,8 +152,10 @@ export default function ContainerRooms() {
   // end to Navigation
 
   return (
-    <section className="flex flex-col gap-5 pt-5">
-      <h1 className="font-bold text-lg">Rooms list</h1>
+    <section className="flex flex-col gap-6 pt-5">
+      <div className='bg-white rounded-2xl w-60 p-2'>
+        <p>Hotel Managment / <strong className='text-gray-600'>Rooms</strong></p>
+      </div>
       {showLoading ? (
         <section className="flex flex-col md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
           <div className="animate-pulse">
@@ -211,8 +213,8 @@ export default function ContainerRooms() {
                       <option>Selected</option>
                       <option value={0}>BUSY</option>
                       <option value={1}>AVAILABLE</option>
-                      <option value={2}>RESERVED</option>
-                      <option value={3}>CLEANING</option>
+                      <option value={2}>CLEANING</option>
+                      <option value={3}>RESERVED</option>
                       {/* Agrega más opciones de estado según sea necesario */}
                     </select>
                   </div>
@@ -276,7 +278,7 @@ export default function ContainerRooms() {
       ) : loading === "failed" ? (
         <p>Error al cargar los datos</p>
       ) : (
-        <section className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-2">
+        <section className="grid grid-cols-1 gap-4 md:grid-cols-5 md:gap-2" >
           {currentRooms.map((room) => (
             <article
               key={room.idRoom}
@@ -285,7 +287,7 @@ export default function ContainerRooms() {
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                   <h3 className="text-xl font-semibold">{room.roomNumber}</h3>
-                  <p className="text-gray-500">{room.roomState}</p>
+                  <p className="text-gray-500">State: {room.roomState}</p>
                   <p className="text-gray-500">
                     Category: {room.roomCategory.categoryName}
                   </p>
@@ -308,13 +310,13 @@ export default function ContainerRooms() {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="modal bg-white rounded shadow-lg p-8">
                 <p className="mb-4">
-                  ¿Estás seguro de que deseas eliminar este cuarto?
+                Are you sure you want to delete this room?
                 </p>
                 <button
                   onClick={handleDeleteRoom}
                   className="bg-red-500 text-white py-2 px-4 rounded mr-2 hover:bg-red-700"
                 >
-                  Sí
+                  Yes
                 </button>
                 <button
                   onClick={() => setIsModalOpen(false)}
@@ -365,8 +367,8 @@ export default function ContainerRooms() {
                       <option>Change option</option>
                       <option value={0}>BUSY</option>
                       <option value={1}>AVAILABLE</option>
-                      <option value={2}>RESERVED</option>
-                      <option value={3}>CLEANING</option>
+                      <option value={2}>CLEANING</option>
+                      <option value={3}>RESERVED</option>
                       {/* Agrega más opciones de estado según sea necesario */}
                     </select>
                   </div>

@@ -1,31 +1,51 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchBooking = createAsyncThunk('booking/fetch', async () => {
-  const response = await fetch('https://api.jsonbin.io/v3/b/6531b06654105e766fc48957');
-  const data = await response.json();
-  return data.record.content;
-});
+import axios from 'axios';
 
-const bookingSlice = createSlice({
-  name: 'booking',
+export const fetchBookingsByPage = createAsyncThunk(
+  'bookings/fetchByPage',
+  async (pageNumber) => {
+    try {
+      const response = await axios.get(`http://localhost:8083/api/bookings/page/${pageNumber}`);
+      return response.data.response;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+);
+
+const bookingsSlice = createSlice({
+  name: 'bookings',
   initialState: {
     data: [],
     loading: 'idle',
+    page: 0,
+    totalPages: 0,
   },
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.page = action.payload.pageable.pageNumber;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBooking.pending, (state) => {
+      .addCase(fetchBookingsByPage.pending, (state) => {
         state.loading = 'loading';
       })
-      .addCase(fetchBooking.fulfilled, (state, action) => {
+      .addCase(fetchBookingsByPage.fulfilled, (state, action) => {
         state.loading = 'succeeded';
-        state.data = action.payload;
+        state.data = action.payload.content;
+        state.totalPages = action.payload.totalPages;
+        state.page = action.payload.pageable.pageNumber;
+        state.totalElements = action.payload.totalElements;
       })
-      .addCase(fetchBooking.rejected, (state) => {
+      .addCase(fetchBookingsByPage.rejected, (state) => {
         state.loading = 'failed';
       });
   },
 });
 
-export default bookingSlice.reducer;
+export const { setPage } = bookingsSlice.actions;
+
+export default bookingsSlice.reducer;

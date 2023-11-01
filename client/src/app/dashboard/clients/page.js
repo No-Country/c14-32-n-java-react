@@ -17,6 +17,7 @@ export default function ContainerClients() {
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.data);
   const loading = useSelector((state) => state.customers.loading);
+  const error = useSelector(state => state.addcustomer.error);
   const page = useSelector((state) => state.customers.page);
   const totalPages = useSelector((state) => state.customers.totalPages);
 
@@ -167,7 +168,9 @@ export default function ContainerClients() {
 
   return (
     <section className="pt-5 h-5/6 flex flex-col gap-3">
-      <h1 className="font-bold text-2xl">Clients</h1>
+      <div className='bg-white rounded-2xl w-60 p-2'>
+        <p>Hotel Managment / <strong className='text-gray-600'>Clients</strong></p>
+      </div>
       {showLoading ? (
         <section className="flex flex-col md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
           <div className="animate-pulse">
@@ -197,7 +200,7 @@ export default function ContainerClients() {
               className="p-2 border border-gray-300 rounded-md"
             />
           </div>
-          <div className=" flex gap-3">
+          <div className="flex gap-3">
             {/* Button adding item */}
             <button
               onClick={() => setAddingPopup(true)}
@@ -297,8 +300,8 @@ export default function ContainerClients() {
                         }-700 mr-2`}
                       >
                         {addingStatus === "loading"
-                          ? "Adding..."
-                          : "Add Client"}
+                          ? "Adding..." 
+                          : "Add Client" }
                       </button>
                       <button
                         onClick={() => {
@@ -310,6 +313,8 @@ export default function ContainerClients() {
                         Cancel
                       </button>
                     </div>
+
+                    
                   </form>
                 </div>
               </div>
@@ -356,7 +361,7 @@ export default function ContainerClients() {
       ) : loading === "failed" ? (
         <p>Error al cargar los datos</p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-2xl">
+        <div className="overflow-x-auto bg-white rounded-2xl" style={{ height: "50vh"}}>
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>

@@ -26,23 +26,6 @@ export default function ContainerCategories() {
 
   const addingStatus = useSelector((state) => state.addcategories.addingStatus);
 
-  // const [categoryData, setCategoryData] = React.useState({
-  //   categoryName: "",
-  //   categoryDescription: "",
-  //   basePrice: null,
-  // });
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setCategoryData({ ...categoryData, [name]: value });
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(addCategories(categoryData)).then(() => {
-  //     dispatch(fetchCategoriesByPage(page));
-  //   });
-  //   setAddingPopup(false);
-  // };
 
   // Definir el esquema de validación Yup para las categorías
   const categoryValidationSchema = Yup.object({
@@ -182,8 +165,10 @@ export default function ContainerCategories() {
   };
 
   return (
-    <section className="pt-5 h-4/6 flex flex-col gap-5">
-      <h1 className="font-bold text-xl">Section Categories</h1>
+    <section className="pt-5  flex flex-col gap-5">
+      <div className='bg-white rounded-2xl w-64 p-2'>
+        <p>Hotel Managment / <strong className='text-gray-600'>Categories</strong></p>
+      </div>
       {showLoading ? (
         <section className="flex flex-col md:flex-row md:justify-between items-center md:gap-0 gap-4 rounded-2xl p-5 bg-white ">
           <div className="animate-pulse">
@@ -358,7 +343,7 @@ export default function ContainerCategories() {
       ) : loading === "failed" ? (
         <p>Error Here!!</p>
       ) : (
-        <article className="overflow-x-auto bg-white rounded-2xl h-full">
+        <article className="overflow-x-auto bg-white rounded-2xl" style={{ height: "50vh"}}>
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>

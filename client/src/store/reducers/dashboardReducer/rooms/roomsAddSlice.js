@@ -18,7 +18,7 @@ export const addRooms = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.error('Error adding room:', error);
+      alert('Error adding room ', error);
       throw error;
     }
   }

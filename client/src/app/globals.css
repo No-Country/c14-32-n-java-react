@@ -97,6 +97,15 @@ body {
   background-repeat: no-repeat;
 }
 
+.icon-registers-page{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-image: url("../assets/icons/how_to_reg_FILL0_wght400_GRAD0_opsz24.svg");
+  background-size: 24px;
+  background-repeat: no-repeat;
+}
+
 .icon-edit{
   width: 24px;
   height: 24px;

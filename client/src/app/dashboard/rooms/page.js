@@ -167,7 +167,7 @@ export default function ContainerRooms() {
           </div>
         </section>
       ) : (
-        <section className="p-5 bg-white rounded-lg flex justify-between">
+        <section className="p-5 bg-white rounded-lg flex flex-col md:justify-between gap-2">
           <input
             type="text"
             placeholder="Search..."

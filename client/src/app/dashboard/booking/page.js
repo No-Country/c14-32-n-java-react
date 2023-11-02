@@ -262,7 +262,7 @@ export default function ContainerReceptions() {
                         htmlFor="checkInDate"
                         className="block text-gray-700 text-sm font-bold mb-2"
                       >
-                        Fecha de Check-In
+                        Check in Date
                       </label>
                       <input
                         type="datetime-local"
@@ -278,7 +278,7 @@ export default function ContainerReceptions() {
                         htmlFor="checkOutDate"
                         className="block text-gray-700 text-sm font-bold mb-2"
                       >
-                        Fecha de Check-Out
+                        Check out Date
                       </label>
                       <input
                         type="datetime-local"
@@ -295,7 +295,7 @@ export default function ContainerReceptions() {
                         htmlFor="paymentType"
                         className="block text-gray-700 text-sm font-bold mb-2"
                       >
-                        Tipo de Pago
+                        Payment Type
                       </label>
                       <select
                         id="paymentType"

@@ -13,7 +13,7 @@ export const deleteCategories = createAsyncThunk(
       }
       return categoryId;
     } catch (error) {
-      console.error("Error deleting category:", error);
+      alert("Error deleting category ", error);
       throw error;
     }
   }

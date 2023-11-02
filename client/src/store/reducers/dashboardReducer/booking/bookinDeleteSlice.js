@@ -16,6 +16,7 @@ export const deleteBooking = createAsyncThunk(
 
       return bookingId;
     } catch (error) {
+      alert("Error deleting category ", error);
       throw error;
     }
   }

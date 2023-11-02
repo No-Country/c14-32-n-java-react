@@ -17,6 +17,7 @@ export const deleteRoom = createAsyncThunk(
 
       return roomId;
     } catch (error) {
+      alert("Error deleting category ", error);
       throw error;
     }
   }

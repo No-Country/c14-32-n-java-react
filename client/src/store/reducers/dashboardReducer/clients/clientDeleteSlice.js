@@ -17,6 +17,7 @@ export const deleteCustomer = createAsyncThunk(
 
       return customerId;
     } catch (error) {
+      alert("Error deleting category ", error);
       throw error;
     }
   }

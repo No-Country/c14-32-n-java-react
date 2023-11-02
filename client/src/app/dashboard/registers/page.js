@@ -267,6 +267,9 @@ export default function ContainerRegister() {
                     Room State
                   </th>
                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Service Price
+                  </th>
+                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -287,6 +290,9 @@ export default function ContainerRegister() {
                       {register.guestCheckOut === null
                         ? "YYYY - MM - DD"
                         : register.guestCheckOut}
+                    </td>
+                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                      {register.servicePrice === 0 ? "---": register.servicePrice}
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                       {register.room.roomState}

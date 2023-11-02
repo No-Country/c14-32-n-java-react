@@ -1,33 +1,53 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const fetchRooms = createAsyncThunk("rooms/fetch", async () => {
-  const response = await fetch(
-    "https://api.jsonbin.io/v3/b/652f26af12a5d376598d1e54"
-  );
-  const data = await response.json();
-  return data.record.content;
-});
+export const fetchRoomsByPage = createAsyncThunk(
+  'rooms/fetchByPage',
+  async (pageNumber) => {
+    try {
+      const response = await axios.get(`https://hotel-backend-production-b446.up.railway.app/api/rooms/page/${pageNumber}`);
+      if (response.status !== 200) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+      return response.data.response;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
+  }
+);
 
 const roomsSlice = createSlice({
-  name: "rooms",
+  name: 'rooms',
   initialState: {
     data: [],
-    loading: "idle",
+    loading: 'idle',
+    page: 0,
+    totalPages: 0,
   },
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchRooms.pending, (state) => {
-        state.loading = "loading";
+      .addCase(fetchRoomsByPage.pending, (state) => {
+        state.loading = 'loading';
       })
-      .addCase(fetchRooms.fulfilled, (state, action) => {
-        state.loading = "succeeded";
-        state.data = action.payload;
+      .addCase(fetchRoomsByPage.fulfilled, (state, action) => {
+        state.loading = 'succeeded';
+        state.data = action.payload.content;
+        state.totalPages = action.payload.totalPages;
+        state.page = action.payload.pageable.pageNumber;
+        state.totalElements = action.payload.totalElements;
       })
-      .addCase(fetchRooms.rejected, (state) => {
-        state.loading = "failed";
+      .addCase(fetchRoomsByPage.rejected, (state) => {
+        state.loading = 'failed';
       });
   },
 });
+
+export const { setPage } = roomsSlice.actions;
 
 export default roomsSlice.reducer;

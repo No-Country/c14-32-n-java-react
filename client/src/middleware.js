@@ -21,5 +21,6 @@ export const config = {
     "/dashboard/rooms",
     "/dashboard/clients",
     "/dashboard/booking",
+    "/dashboard/registers",
   ],
 };

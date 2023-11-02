@@ -38,7 +38,14 @@ const aside_data = [
     name: "Categories",
     icon: "icon-categories-page",
     link: "/dashboard/categories"
+  },
+  {
+    id:6,
+    name: "Registers",
+    icon: "icon-registers-page",
+    link: "/dashboard/registers"
   }
+
 ];
 
 export default function Dashboard({ children }) {

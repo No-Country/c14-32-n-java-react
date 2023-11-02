@@ -61,7 +61,7 @@ export default function Home() {
             </p>
           )}
           <label className="block text-sm font-medium leading-6 text-gray-900">
-            Email address
+            Password
           </label>
           <input
             type="password"

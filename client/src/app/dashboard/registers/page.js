@@ -292,11 +292,14 @@ export default function ContainerRegister() {
                         : register.guestCheckOut}
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                      {register.servicePrice === 0 ? "---": register.servicePrice}
-                    </td>
-                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                       {register.room.roomState}
                     </td>
+                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
+                      {register.servicePrice === 0
+                        ? "---"
+                        : register.servicePrice}
+                    </td>
+
                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                       {register.registrationStatus === false
                         ? "Registered"

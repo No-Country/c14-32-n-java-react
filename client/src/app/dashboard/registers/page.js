@@ -297,7 +297,7 @@ export default function ContainerRegister() {
                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                       {register.servicePrice === 0
                         ? "---"
-                        : register.servicePrice.toFixed(2)}
+                        : `$${register.servicePrice.toFixed(2)}`}
                     </td>
 
                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">

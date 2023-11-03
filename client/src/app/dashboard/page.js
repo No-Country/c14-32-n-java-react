@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <section className="p-5">
-      <h1 className="font-bold text-2xl mb-5">Welcome to hotel management</h1>
+      <h1 className="font-bold text-2xl mb-5">Welcome to isHotel</h1>
 
       {showLoading ? (
         <React.Fragment>

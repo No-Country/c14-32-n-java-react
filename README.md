@@ -4,7 +4,7 @@ Group: c14-32-n-java-react
 
 ## Team Members
 - Juan Oscco
-- David Figuero
+- David Figuerero
 
 ## Overview
 The Hotel Management System is a web application developed using Java Spring, Hibernate, and Next.js. It is designed to streamline the management of a hotel, providing tools to efficiently handle reservations, room assignments, guest information, and more.
